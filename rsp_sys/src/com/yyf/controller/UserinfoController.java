@@ -52,25 +52,11 @@ public class UserinfoController {
 	private IimagesService iimagesService;
 	
 	/**
-	 * 用户登录
-	 */
-	@RequestMapping(value = "/modifyHeadPortrait", method = RequestMethod.POST)
-    @ResponseBody
-	public JosnModel<Object> userLogin(@RequestParam(value="username",required=false)String username,
-			@RequestParam(value="pwd",required=false)String pwd){
-		//实例化对象
-		JosnModel<Object> josn=new JosnModel<Object>();
-		
-		
-		return null;
-	}
-	
-	/**
      * 修改头像
      */
     @RequestMapping(value = "/modifyHeadPortrait", method = RequestMethod.POST)
     @ResponseBody
-     public JosnModel<Object> imageUpload(MultipartFile file,
+    public JosnModel<Object> imageUpload(MultipartFile file,
     		HttpServletRequest request,
     		@RequestParam(value="openid",required=false)String openid) {
     	//实例化对象

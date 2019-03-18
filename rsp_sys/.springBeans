@@ -9,7 +9,7 @@
 	<configs>
 	</configs>
 	<autoconfigs>
-		<config>WebRoot/WEB-INF/DispatcherServlet-servlet.xml</config>
+		<config>src/applicationContext.xml</config>
 	</autoconfigs>
 	<configSets>
 	</configSets>
