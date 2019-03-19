@@ -3,7 +3,6 @@
 	<name>rsp_sys</name>
 	<comment></comment>
 	<projects>
-		<project>rsp_sys</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

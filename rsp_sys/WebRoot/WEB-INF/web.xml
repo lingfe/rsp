@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  
+  <!-- 中文编码过滤器 -->
   <filter>
     <filter-name>CharacterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -8,14 +10,16 @@
       <param-value>UTF-8</param-value>
     </init-param>
     <init-param>
-      <param-name>forceEncoding</param-name>
-      <param-value>true</param-value>
+          <param-name>forceEncoding</param-name>
+          <param-value>true</param-value>
     </init-param>
   </filter>
   <filter-mapping>
     <filter-name>CharacterEncodingFilter</filter-name>
     <url-pattern>/</url-pattern>
   </filter-mapping>
+  
+  
   <filter>
     <filter-name>HiddenHttpMethodFilter</filter-name>
     <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
@@ -24,6 +28,8 @@
     <filter-name>HiddenHttpMethodFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  
   <servlet>
     <servlet-name>DispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -32,6 +38,8 @@
     <servlet-name>DispatcherServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  
+  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath:applicationContext.xml</param-value>
@@ -39,6 +47,13 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  
+  <!-- 请求时间 -->
+  <session-config>
+  	<session-timeout>2</session-timeout>
+  </session-config>
+  
+  
   <filter>
     <filter-name>EncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -47,8 +62,8 @@
       <param-value>UTF-8</param-value>
     </init-param>
     <init-param>
-      <param-name>forceEncoding</param-name>
-      <param-value>true</param-value>
+          <param-name>forceEncoding</param-name>
+          <param-value>true</param-value>
     </init-param>
   </filter>
   <filter-mapping>
@@ -98,14 +113,4 @@
     <param-name>webAppRootKey</param-name>
     <param-value>webapp.root</param-value>
   </context-param>
-  <servlet>
-    <description>JAX-RS Tools Generated - Do not modify</description>
-    <servlet-name>JAX-RS Servlet</servlet-name>
-    <servlet-class></servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>JAX-RS Servlet</servlet-name>
-    <url-pattern>/jaxrs/*</url-pattern>
-  </servlet-mapping>
 </web-app>

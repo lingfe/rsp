@@ -11,7 +11,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	
 	<!-- 扫描表述层的包 -->
-	<context:component-scan base-package="com.yyf.controller"></context:component-scan>
+	<context:component-scan base-package="com.rsp.controller"></context:component-scan>
 	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

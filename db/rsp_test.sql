@@ -52,15 +52,15 @@ CREATE TABLE `certificate_prearrangement` (
   `is_licence_continue` int(11) DEFAULT NULL COMMENT '是否证照延续:0=否，1=是',
   `inspection_date` date DEFAULT NULL COMMENT '检验时间',
   `inspection_cycle` varchar(64) DEFAULT NULL COMMENT '检验周期',
-  `assessment_date` varchar(64) DEFAULT NULL COMMENT '评估时间',
+  `assessment_date` date NOT NULL COMMENT '评估时间',
   `evaluation_cycle` varchar(64) DEFAULT NULL COMMENT '评估周期',
   `valid_certificate` varchar(64) DEFAULT NULL COMMENT '有效证',
   `certificates_number` varchar(64) DEFAULT NULL COMMENT '证件编号',
   `certification_authority` varchar(64) DEFAULT NULL COMMENT '发证机构',
-  `issuing_date` varchar(64) DEFAULT NULL COMMENT '发证时间',
+  `issuing_date` date DEFAULT NULL COMMENT '发证时间',
   `state` int(11) DEFAULT '1' COMMENT '状态',
-  `cdate` datetime DEFAULT NULL COMMENT '创建时间',
-  `mdate` datetime DEFAULT NULL COMMENT '最后修改时间',
+  `cdate` date DEFAULT NULL COMMENT '创建时间',
+  `mdate` date DEFAULT NULL COMMENT '最后修改时间',
   `creator` varchar(64) DEFAULT 'admin' COMMENT '创建人',
   `modify` varchar(64) DEFAULT 'admin' COMMENT '修改人',
   `version` varchar(64) DEFAULT '0' COMMENT '数据版本',
@@ -326,7 +326,7 @@ CREATE TABLE `user_info` (
 
 /*Data for the table `user_info` */
 
-insert  into `user_info`(`id`,`openid`,`username`,`realname`,`avatar`,`relo`,`pwd`,`tel`,`email`,`mobile`,`qq`,`balance`,`lastTime`,`state`,`idCard`,`provinceCode`,`provinceName`,`cityCode`,`cityName`,`regionCode`,`regionName`,`address`,`remark`,`cdate`,`mdate`,`creator`,`modify`,`version`) values ('23423423423',NULL,'零风',NULL,NULL,0,'123456',NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'admin','admin','0');
+insert  into `user_info`(`id`,`openid`,`username`,`realname`,`avatar`,`relo`,`pwd`,`tel`,`email`,`mobile`,`qq`,`balance`,`lastTime`,`state`,`idCard`,`provinceCode`,`provinceName`,`cityCode`,`cityName`,`regionCode`,`regionName`,`address`,`remark`,`cdate`,`mdate`,`creator`,`modify`,`version`) values ('23423423423',NULL,'零风',NULL,NULL,0,'123456',NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'admin','admin','0'),('235234324234',NULL,'admin',NULL,NULL,0,'123456',NULL,NULL,NULL,NULL,0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'admin','admin','0');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
