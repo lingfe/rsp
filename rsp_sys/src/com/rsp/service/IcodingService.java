@@ -7,6 +7,12 @@ import com.rsp.inter.Icoding;
 import com.rsp.model.Tab_coding;
 
 public interface IcodingService extends Icoding {
+	
+	@Override
+	Tab_coding getWhereId(String id);
+	
+	@Override
+	int getCount();
 
 	@Override
 	int deleteWhereId(String id);

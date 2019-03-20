@@ -26,6 +26,16 @@ public class CodingServiceImpl implements IcodingService {
 	private IcodingMapper icodingMapper;
 	
 	@Override
+	public Tab_coding getWhereId(String id) {
+		return icodingMapper.getWhereId(id);
+	}
+	
+	@Override
+	public int getCount() {
+		return icodingMapper.getCount();
+	}
+	
+	@Override
 	public int deleteWhereId(String id) {
 		return icodingMapper.deleteWhereId(id);
 	}	

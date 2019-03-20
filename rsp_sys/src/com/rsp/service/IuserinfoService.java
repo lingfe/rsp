@@ -9,6 +9,12 @@ import com.rsp.model.Tab_user_info;
 public interface IuserinfoService extends Iuserinfo {
 	
 	@Override
+	int updatePwd(String id, String newPwd);
+	
+	@Override
+	Tab_user_info getWhereId(String id);
+	
+	@Override
 	Tab_user_info getWhereNamePwd(String username, String pwd);
 	
 	/**

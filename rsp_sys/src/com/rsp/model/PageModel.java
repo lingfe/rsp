@@ -10,35 +10,47 @@ import java.util.List;
  */
 public class PageModel<T> {
 	
-	/**
-	 * 当前页
-	 */
+	//当前页
 	private Integer pageIndex=1;
 	
-	/**
-	 * 总页数
-	 */
+	//页容量，默认10
+	private Integer pageNum=10;
+	
+	//总页数
 	private Integer pageCount;
 	
-	/**
-	 * 页容量，默认10
-	 */
-	private Integer pageNum=1000;
-	
-	/**
-	 * 总数据量
-	 */
+	//总数据量
 	private Integer numCount;
 	
-	/**
-	 * 集合数据
-	 */
+	//首页
+	private Integer frist=1;
+	
+	//上一页
+	private Integer shang;
+	
+	//下一页
+	private Integer xia;
+	
+	//尾页
+	private Integer last;
+	
+	//分页集合数据
 	private List<T> list;
 	
-	/**
-	 * 首页
-	 */
-	private Integer frist=1;
+	public void setNumCount(Integer numCount) {
+		this.numCount = numCount;
+		//得到总页数
+		this.pageCount=this.numCount%this.pageNum==0?this.numCount/this.pageNum:this.numCount/this.pageNum+1;
+		//得到上一页
+		this.shang=this.pageIndex >1?this.pageIndex-1:1;
+		//得到下一页
+		this.xia=this.pageIndex<this.pageCount?this.pageIndex+1:this.pageCount;
+		//得到最后一页
+		this.last=this.pageCount;
+		//首页
+		this.frist=1;
+	}
+
 	
 	public Integer getFrist() {
 		return frist;
@@ -72,20 +84,6 @@ public class PageModel<T> {
 		this.last = last;
 	}
 
-	/**
-	 * 上一页
-	 */
-	private Integer shang;
-	
-	/**
-	 * 下一页
-	 */
-	private Integer xia;
-	
-	/**
-	 * 尾页
-	 */
-	private Integer last;
 	public Integer getPageIndex() {
 		return pageIndex;
 	}
@@ -114,20 +112,6 @@ public class PageModel<T> {
 		return numCount;
 	}
 
-	public void setNumCount(Integer numCount) {
-		this.numCount = numCount;
-		//得到总页数
-		this.pageCount=this.numCount%this.pageNum==0?this.numCount/this.pageNum:this.numCount/this.pageNum+1;
-		//得到上一页
-		this.shang=this.pageIndex >1?this.pageIndex-1:1;
-		//得到下一页
-		this.xia=this.pageIndex<this.pageCount?this.pageIndex+1:this.pageCount;
-		//得到最后一页
-		this.last=this.pageCount;
-		//首页
-		this.frist=1;
-	}
-
 	public List<T> getList() {
 		return list;
 	}
@@ -136,23 +120,12 @@ public class PageModel<T> {
 		this.list = list;
 	}
 	
-	/**
-	 * 表示状态，各种状态
-	 */
-	private int status;
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
-	}
 
 	@Override
 	public String toString() {
 		return "PageModel [pageIndex=" + pageIndex + ", pageCount=" + pageCount + ", pageNum=" + pageNum + ", numCount="
 				+ numCount + ", list=" + list + ", frist=" + frist + ", shang=" + shang + ", xia=" + xia + ", last="
-				+ last + ", status=" + status + "]";
+				+ last +"]";
 	}
 	
 	

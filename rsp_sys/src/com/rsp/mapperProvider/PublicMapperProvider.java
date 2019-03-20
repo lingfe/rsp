@@ -19,6 +19,16 @@ public class PublicMapperProvider  {
         whereClause.append("select * from ");
         whereClause.append(map.get("table"));
         whereClause.append(" where 1=1  ");
+        //验证条件
+        if(map.get("coding_type")!=null){
+        	whereClause.append(" and coding_type=").append(map.get("coding_type"));
+        }
+        if(map.get("state")!=null){
+        	whereClause.append(" and state=").append(map.get("state"));
+        }
+        if(map.get("coding_name")!=null){
+        	whereClause.append(" and coding_name like '%").append(map.get("coding_name")).append("%'");
+        }
         whereClause.append(" order by  mdate desc ");
 
 		//条件追加,分页查询

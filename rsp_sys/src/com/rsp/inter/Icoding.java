@@ -15,6 +15,24 @@ import com.rsp.model.Tab_coding;
  */
 public interface Icoding {
 	
+	/**
+	 * 
+	 * 根据编码信息id标识查询信息
+	 * @author lingfe     
+	 * @created 2019年3月20日 上午10:52:24  
+	 * @param id
+	 * @return
+	 */
+	Tab_coding getWhereId(String id);
+	
+	/**
+	 * 
+	 *查询总数据量
+	 * @author lingfe     
+	 * @created 2019年3月20日 上午9:58:01  
+	 * @return
+	 */
+	int getCount();
 	
 	/**
 	 * 

@@ -31,6 +31,50 @@ public class UserinfoController {
 	
 	
 	/**
+	 * 
+	 * 修改密码
+	 * @author lingfe     
+	 * @created 2019年3月20日 下午2:36:38  
+	 * @param username 用户名
+	 * @param pwd	密码
+	 * @param newPwd	新密码
+	 * @return
+	 */
+	@RequestMapping(value = "/updatePwd", method = { RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public JosnModel<Object> updatePwd(
+    		@RequestParam(value="username",required=false)String username,
+    		@RequestParam(value="pwd",required=false)String pwd,
+			@RequestParam(value="newPwd",required=false)String newPwd){
+		//实例化对象
+		JosnModel<Object> josn=new JosnModel<Object>();
+		//验证非空
+		if(!StringUtils.isEmpty(pwd)){
+			if(!StringUtils.isEmpty(newPwd)){
+				//匹配原始密码
+				Tab_user_info info=iuserinfoService.getWhereNamePwd(username, pwd);
+				if(info!=null){
+					//执行修改
+					int tt=iuserinfoService.updatePwd(info.getId(), newPwd);
+					if(tt>=1){
+						josn.state=200;
+						josn.msg="修改成功!";
+					}
+				}else{
+					josn.msg="修改失败!原始密码错误!";
+				}
+			}else{
+				josn.msg="请输入新密码!";
+			}
+		}else{
+			josn.msg="请输入原始密码!";
+		}
+		
+		return josn;
+	}
+	
+	
+	/**
 	 * 用户密码登录
 	 */
 	@RequestMapping(value = "/getLogin", method = { RequestMethod.POST, RequestMethod.GET})

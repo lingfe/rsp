@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.rsp.inter.Iuserinfo;
 import com.rsp.mapperProvider.IuserinfoMapperProvider;
@@ -21,6 +22,12 @@ import com.rsp.model.Tab_user_info;
   * 修改内容：
  */	
 public interface IuserinfoMapper extends Iuserinfo {
+	
+	@Update("update user_info set pwd=#{newPwd} where id=#{id}")
+	int updatePwd(@Param("id")String id, @Param("newPwd")String newPwd);
+	
+	@Select("select * from user_info where id=#{id}")
+	Tab_user_info getWhereId(@Param("id")String id);
 
 	@Select("select * from user_info where username=#{username} and pwd=#{pwd} ")
 	Tab_user_info getWhereNamePwd(@Param("username")String username,@Param("pwd")String pwd);

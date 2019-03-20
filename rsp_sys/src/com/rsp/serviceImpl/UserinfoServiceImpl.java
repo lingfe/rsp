@@ -17,10 +17,19 @@ import com.rsp.service.IuserinfoService;
  */
 @Service
 public class UserinfoServiceImpl implements IuserinfoService {
-
-	//自动装配
+	
 	@Autowired
 	private IuserinfoMapper iuserinfoMapper;
+	
+	@Override
+	public int updatePwd(String id, String newPwd) {
+		return iuserinfoMapper.updatePwd(id, newPwd);
+	}
+	
+	@Override
+	public Tab_user_info getWhereId(String id) {
+		return iuserinfoMapper.getWhereId(id);
+	}
 	
 	@Override
 	public Tab_user_info getWhereNamePwd(String username, String pwd) {

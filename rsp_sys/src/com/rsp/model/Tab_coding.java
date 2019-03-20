@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Tab_coding {
 	
 	private String id;//	  `id` VARCHAR(64) NOT NULL COMMENT '编码表id标识',
-	private int coding_type=0;//	  `coding_type` INT(11) DEFAULT NULL COMMENT '编码类型: 0=其他，\n					1=性别，2=职称，3=工作性质，\n					4=职业照射分类，5=附件类别，\n					6=装置类别，7=设备用途，8=流程类型，\n					9=流程分类，',
+	private Integer coding_type=0;//	  `coding_type` INT(11) DEFAULT NULL COMMENT '编码类型: 0=其他，\n					1=性别，2=职称，3=工作性质，\n					4=职业照射分类，5=附件类别，\n					6=装置类别，7=设备用途，8=流程类型，\n					9=流程分类，',
 	private String coding_name;//	  `coding_name` VARCHAR(64) DEFAULT NULL COMMENT '编码名称',
 	private String remark;//	  `remark` VARCHAR(64) DEFAULT NULL COMMENT '备注',
-	private int state=1;//	  `state` INT(11) DEFAULT '1' COMMENT '状态：1=启用，0=停用',
+	private Integer state=1;//	  `state` INT(11) DEFAULT '1' COMMENT '状态：1=启用，0=停用',
 	
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -33,10 +33,17 @@ public class Tab_coding {
 	private String version="0";//	  `version` VARCHAR(64) DEFAULT '0' COMMENT '数据版本',
 	
 	
+	//add   ===>>表示该字段是后来添加，会同步到数据库
+	
+	//param ===>>表示该字段是参数需要,不会同步到数据库
+	public String creator_name;//创建人名称
+	public String modify_name;//修改人名称
+	
+	
 	public String getId() {
 		return id;
 	}
-	public int getCoding_type() {
+	public Integer getCoding_type() {
 		return coding_type;
 	}
 	public String getCoding_name() {
@@ -45,7 +52,7 @@ public class Tab_coding {
 	public String getRemark() {
 		return remark;
 	}
-	public int getState() {
+	public Integer getState() {
 		return state;
 	}
 	public Date getCdate() {
@@ -66,7 +73,7 @@ public class Tab_coding {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setCoding_type(int coding_type) {
+	public void setCoding_type(Integer coding_type) {
 		this.coding_type = coding_type;
 	}
 	public void setCoding_name(String coding_name) {
@@ -75,7 +82,7 @@ public class Tab_coding {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	public void setState(int state) {
+	public void setState(Integer state) {
 		this.state = state;
 	}
 	public void setCdate(Date cdate) {

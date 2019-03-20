@@ -65,19 +65,9 @@ public class Tab_user_info {
 	
 	//add   ===>>表示该字段是后来添加，会同步到数据库
 	private String openid;//小程序用户id
-    private int is_merchant=0;//是否是商户。0=否，不是;1=是
-	
-	public int follow_num;//关注人数
-	public int like_num;//喜欢总数量
 	
 	
 	
-	public int getIs_merchant() {
-		return is_merchant;
-	}
-	public void setIs_merchant(int is_merchant) {
-		this.is_merchant = is_merchant;
-	}
 	public String getOpenid() {
 		return openid;
 	}
