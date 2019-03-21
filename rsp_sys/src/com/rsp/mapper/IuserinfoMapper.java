@@ -23,6 +23,9 @@ import com.rsp.model.Tab_user_info;
  */	
 public interface IuserinfoMapper extends Iuserinfo {
 	
+	@Select("select * from user_info where username=#{username}")
+	Tab_user_info selectWhereName(@Param("username")String username);
+	
 	@Update("update user_info set pwd=#{newPwd} where id=#{id}")
 	int updatePwd(@Param("id")String id, @Param("newPwd")String newPwd);
 	
@@ -34,12 +37,12 @@ public interface IuserinfoMapper extends Iuserinfo {
 	
 	//保存用户信息
 	@Insert("INSERT  INTO user_info "
-			+ "(`id`,is_merchant,openid,`username`,`realname`,`avatar`,`is_follow`,`relo`,`credit`,`is_authentication`,`businessTime`,"
+			+ "(`id`,openid,`username`,`realname`,`avatar`,`relo`,"
 			+ "`pwd`,`tel`,`email`,`mobile`,`qq`,`balance`,`lastTime`,`state`,`idCard`,`provinceCode`,`provinceName`,"
 			+ "`cityCode`,`cityName`,`regionCode`,`regionName`,`address`,`remark`,"
 			+ "`cdate`,`mdate`,`creator`,`modify`,`version`) "
 			+ " VALUES  "
-			+ "(#{id},#{is_merchant},#{openid},#{username},#{realname},#{avatar},#{is_follow},#{relo},#{credit},#{is_authentication},#{businessTime},"
+			+ "(#{id},#{openid},#{username},#{realname},#{avatar},#{relo},"
 			+ "#{pwd},#{tel},#{email},#{mobile},#{qq},#{balance},#{lastTime},#{state},#{idCard},#{provinceCode},#{provinceName},"
 			+ "#{cityCode},#{cityName},#{regionCode},#{regionName},#{address},#{remark},"
 			+ "#{cdate},#{mdate},#{creator},#{modify},#{version})")

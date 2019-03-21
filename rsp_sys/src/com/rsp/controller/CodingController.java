@@ -69,20 +69,19 @@ public class CodingController {
 		//实例化对象
 		JosnModel<Object> josn=new JosnModel<Object>();
 		Tab_system_log sysLog=new Tab_system_log();
-		session.setAttribute("userid", "sdgdfdfgnbdffsdgfdf");
+		//系统日志
+		sysLog.setIp(GetIpUtil.getIpAddr(request));
+		sysLog.setModel_name("修改编码信息,"+request.getRequestURI());
+		Object creator=session.getAttribute("userid");
+		if(!StringUtils.isEmpty(creator)){
+			sysLog.setCreator(creator.toString());
+		}
+		sysLog.setModify(sysLog.getCreator());
+		sysLog.setOperation_type(2);
 		
 		//验证非空
 		if(coding!=null){
-			//系统日志
-			sysLog.setId(UUID.randomUUID().toString().replace("-", ""));
-			sysLog.setId(GetIpUtil.getIpAddr(request));
-			sysLog.setModel_name(request.getRequestURI());
-			String creator=session.getAttribute("userid").toString();
-			sysLog.setCreator(creator);
-			sysLog.setModify(sysLog.getCreator());
-			sysLog.setOperation_type(2);
 			sysLog.setTarget_id(coding.getId());
-			
 			if(coding.getId()!=null){
 				//执行查询,得到数据
 				Tab_coding tab_coding=icodingService.getWhereId(coding.getId());
@@ -105,14 +104,16 @@ public class CodingController {
 						}else{
 							josn.msg="修改失败!";
 						}
-						sysLog.setIs_bug(0);
 					} catch (Exception e) {
-						sysLog.setIs_bug(0);
-						sysLog.setExceptionally_detailed(e.getMessage());
+						sysLog.setIs_bug(1);
 						
 						josn.msg=e.getMessage();
 						josn.state=500;
 					}
+					//操作说明
+					sysLog.setExceptionally_detailed(josn.msg);
+					//添加系统日志
+					isystem_logService.add(sysLog);
 				}else{
 					josn.msg="id无效!请检查!";
 				}
@@ -122,9 +123,6 @@ public class CodingController {
 		}else{
 			josn.msg="空对象!";
 		}
-		
-		//添加系统日志
-		isystem_logService.add(sysLog);
 		
 		return josn;
 	}
@@ -147,11 +145,21 @@ public class CodingController {
 			@RequestParam(value="pageNum",required=false,defaultValue="10")Integer pageNum,
 			@RequestParam(value="coding_name",required=false)String coding_name,
 			@RequestParam(value="state",required=false)Integer state,
-			HttpServletRequest request){
+			HttpServletRequest request,HttpSession session){
 		//实例化对象
 		JosnModel<Object> josn=new JosnModel<Object>();
 		Map<String, Object>  map = new HashMap<>();
 		PageModel<Tab_coding> page=new PageModel<Tab_coding>();
+		Tab_system_log sysLog=new Tab_system_log();
+		//系统日志
+		sysLog.setIp(GetIpUtil.getIpAddr(request));
+		sysLog.setModel_name("分页请求编码信息,"+request.getRequestURI());
+		Object creator=session.getAttribute("userid");
+		if(!StringUtils.isEmpty(creator)){
+			sysLog.setCreator(creator.toString());
+		}
+		sysLog.setModify(sysLog.getCreator());
+		sysLog.setOperation_type(1);
 		
 		//验证非空
 		if(!StringUtils.isEmpty(coding_type)){
@@ -176,31 +184,41 @@ public class CodingController {
 			int numCount=icodingService.getCount();
 			page.setNumCount(numCount);
 			
-			//得到数据
-			List<Tab_coding> list=icodingService.pageSelect(map);
-			//验证非空
-			if(list!=null){
-				for (Tab_coding tab_coding : list) {
-					//得到创建人名称
-					Tab_user_info info=iuserinfoService.getWhereId(tab_coding.getCreator());
-					tab_coding.creator_name=info.getUsername();
-					
-					//验证是否停用
-					if(tab_coding.getState()==0){
-						//得到停用人
-						info=iuserinfoService.getWhereId(tab_coding.getModify());
-						tab_coding.modify_name=info.getUsername();
-					}else{
-						tab_coding.modify_name="无";
+			try {
+				//得到数据
+				List<Tab_coding> list=icodingService.pageSelect(map);
+				//验证非空
+				if(list!=null){
+					for (Tab_coding tab_coding : list) {
+						//得到创建人名称
+						Tab_user_info info=iuserinfoService.getWhereId(tab_coding.getCreator());
+						tab_coding.creator_name=info.getUsername();
+						
+						//验证是否停用
+						if(tab_coding.getState()==0){
+							//得到停用人
+							info=iuserinfoService.getWhereId(tab_coding.getModify());
+							tab_coding.modify_name=info.getUsername();
+						}else{
+							tab_coding.modify_name="无";
+						}
 					}
+					josn.state=200;
+					josn.msg="请求成功!";
+					page.setList(list);
+					josn.data=page;
+				}else{
+					josn.msg="没有数据,添加一条吧!";
 				}
-				josn.state=200;
-				josn.msg="请求成功!";
-				page.setList(list);
-				josn.data=page;
-			}else{
-				josn.msg="没有数据,添加一条吧!";
+			} catch (Exception e) {
+				sysLog.setIs_bug(1);
+				josn.msg=e.getMessage();
+				josn.state=500;
 			}
+			//操作说明
+			sysLog.setExceptionally_detailed(josn.msg);
+			//添加系统日志
+			isystem_logService.add(sysLog);
 		}else{
 			josn.msg="编码类型不能为空!";
 		}
@@ -219,9 +237,20 @@ public class CodingController {
 	@RequestMapping(value = "/save", method = { RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public JosnModel<Tab_coding> save(Tab_coding coding,
-    		HttpServletRequest request){
+    		HttpServletRequest request,HttpSession session){
 		//实例化对象
 		JosnModel<Tab_coding> josn=new JosnModel<Tab_coding>();
+		Tab_system_log sysLog=new Tab_system_log();
+		//系统日志
+		sysLog.setIp(GetIpUtil.getIpAddr(request));
+		sysLog.setModel_name("保存编码数据,"+request.getRequestURI());
+		Object creator=session.getAttribute("userid");
+		if(!StringUtils.isEmpty(creator)){
+			sysLog.setCreator(creator.toString());
+		}
+		sysLog.setModify(sysLog.getCreator());
+		sysLog.setOperation_type(4);
+		
 		//验证非空
 		if(!StringUtils.isEmpty(coding.getCoding_name())){
 			//赋值
@@ -239,9 +268,14 @@ public class CodingController {
 					josn.msg="保存失败!";
 				}
 			} catch (Exception e) {
+				sysLog.setIs_bug(1);
 				josn.state=500;
 				josn.msg=e.getMessage();
 			}
+			//操作说明
+			sysLog.setExceptionally_detailed(josn.msg);
+			//添加系统日志
+			isystem_logService.add(sysLog);
 		}else{
 			josn.msg="编码名称不能为空!";
 		}
@@ -261,15 +295,27 @@ public class CodingController {
     @RequestMapping(value = "/deleteWhereId", method = { RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public JosnModel<Tab_coding> deleteWhereId(@RequestParam(value="id",required=false)String id,
-    		HttpServletRequest request){
+    		HttpServletRequest request,HttpSession session){
     	//实例化对象
     	JosnModel<Tab_coding> josn=new JosnModel<Tab_coding>();
+    	Tab_system_log sysLog=new Tab_system_log();
+		//系统日志
+		sysLog.setIp(GetIpUtil.getIpAddr(request));
+		sysLog.setModel_name("根据编码表id标识删除数据,"+request.getRequestURI());
+		Object creator=session.getAttribute("userid");
+		if(!StringUtils.isEmpty(creator)){
+			sysLog.setCreator(creator.toString());
+		}
+		sysLog.setModify(sysLog.getCreator());
+		sysLog.setOperation_type(3);
+		
     	//验证非空
     	if(!StringUtils.isEmpty(id)){
     		//执行删除
     		int tt=icodingService.deleteWhereId(id);
     		try {
 				if(tt>=1){
+					sysLog.setTarget_id(id);
 					josn.msg="删除成功!";
 					josn.state=200;
 				}else{
@@ -279,6 +325,10 @@ public class CodingController {
 				josn.msg=e.getMessage();
 				josn.state=500;
 			}
+    		//操作说明
+			sysLog.setExceptionally_detailed(josn.msg);
+			//添加系统日志
+			isystem_logService.add(sysLog);
     	}else{
     		josn.msg="id不能为空!";
     	}

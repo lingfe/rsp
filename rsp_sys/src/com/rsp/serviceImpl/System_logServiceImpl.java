@@ -25,6 +25,11 @@ public class System_logServiceImpl implements Isystem_logService {
 	//自动装配
 	@Autowired
 	private Isystem_logMapper isystem_logMapper;
+	
+	@Override
+	public int getCount() {
+		return isystem_logMapper.getCount();
+	}
 
 	@Override
 	public List<Tab_system_log> pageSelect(Map<String, Object> map) {

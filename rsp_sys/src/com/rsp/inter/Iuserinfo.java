@@ -14,6 +14,16 @@ public interface Iuserinfo {
 	
 	/**
 	 * 
+	 * 根据用户名查询用户
+	 * @author lingfe     
+	 * @created 2019年3月21日 下午3:53:19  
+	 * @param username
+	 * @return
+	 */
+	Tab_user_info selectWhereName(String username);
+	
+	/**
+	 * 
 	 * 根据id标识修改用户密码
 	 * @author lingfe     
 	 * @created 2019年3月20日 下午2:18:39  

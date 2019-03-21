@@ -22,6 +22,11 @@ public class UserinfoServiceImpl implements IuserinfoService {
 	private IuserinfoMapper iuserinfoMapper;
 	
 	@Override
+	public Tab_user_info selectWhereName(String username) {
+		return iuserinfoMapper.selectWhereName(username);
+	}
+	
+	@Override
 	public int updatePwd(String id, String newPwd) {
 		return iuserinfoMapper.updatePwd(id, newPwd);
 	}

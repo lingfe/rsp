@@ -1,6 +1,7 @@
 package com.rsp.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,6 +16,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
   * 修改内容：
  */
 public class Tab_system_log {
+	
+	/**
+	 * 初始化赋值
+	 */
+	public Tab_system_log(){
+		this.id=UUID.randomUUID().toString().replace("-", "");
+		this.creator="游客";
+	}
 
 	private String id;//系统日志表id标识
 	private String ip;//	ip VARCHAR(64) COMMENT 'ip地址',
@@ -41,6 +50,7 @@ public class Tab_system_log {
 	//param ===>>表示该字段是参数需要,不会同步到数据库
 	public String creator_name;//创建人名称
 
+	
 	
 	
 

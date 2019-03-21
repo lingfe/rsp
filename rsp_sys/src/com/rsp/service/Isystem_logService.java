@@ -7,6 +7,9 @@ import com.rsp.inter.Isystem_log;
 import com.rsp.model.Tab_system_log;
 
 public interface Isystem_logService extends Isystem_log{
+	
+	@Override
+	int getCount();
 
 	@Override
 	int add(Tab_system_log syslog);

@@ -17,6 +17,15 @@ public interface Isystem_log {
 	
 	/**
 	 * 
+	 * 得到系统日志总数据量
+	 * @author lingfe     
+	 * @created 2019年3月21日 下午4:38:12  
+	 * @return
+	 */
+	int getCount();
+	
+	/**
+	 * 
 	 * 分页查询系统日志
 	 * @author lingfe     
 	 * @created 2019年3月20日 下午5:16:17  
