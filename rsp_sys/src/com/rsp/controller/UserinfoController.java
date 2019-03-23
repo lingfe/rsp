@@ -45,6 +45,52 @@ public class UserinfoController {
 	
 	/**
 	 * 
+	 * 用户退出登录
+	 * @author lingfe     
+	 * @created 2019年3月22日 上午9:06:50  
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/quitSystem", method = { RequestMethod.POST, RequestMethod.GET})
+    @ResponseBody
+    public JosnModel<Object> quitSystem(
+		HttpServletRequest request,HttpSession session){
+		//实例化对象
+		JosnModel<Object> josn=new JosnModel<Object>();
+		Tab_system_log sysLog=new Tab_system_log();
+		//系统日志
+		sysLog.setIp(GetIpUtil.getIpAddr(request));
+		sysLog.setModel_name("用户退出登录,"+request.getRequestURI());
+		Object creator=session.getAttribute("userid");
+		if(!StringUtils.isEmpty(creator)){
+			sysLog.setCreator(creator.toString());
+		}
+		sysLog.setModify(sysLog.getCreator());
+		sysLog.setOperation_type(0);
+		
+		try {
+			//销毁session
+			session.invalidate();
+			josn.state=200;
+			josn.msg="退出成功";
+		} catch (Exception e) {
+			sysLog.setIs_bug(1);
+			josn.msg=e.getMessage();
+			josn.state=500;
+		}
+		
+		//操作说明
+		sysLog.setExceptionally_detailed(josn.msg);
+		//添加系统日志
+		isystem_logService.add(sysLog);
+		
+		return josn;
+	}
+
+	
+	/**
+	 * 
 	 * 修改密码
 	 * @author lingfe     
 	 * @created 2019年3月20日 下午2:36:38  
