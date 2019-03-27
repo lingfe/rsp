@@ -17,16 +17,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
+		<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 
   </head>
   
   <body>
-     <img alt="" src="${fileUrl1 }"/>  
-     <img alt="" src="${fileUrl2 }"/>  
-     
-     <a href="loginOut">dianzhi</a>
-     <input type="text" value="${login.kuaikePhone }">
+  	 <form action="<%=basePath%>enclosure/fileUpLoad" method="post" enctype="multipart/form-data">
+	   <h2>文件上传</h2>
+	                文件:<input type="file" name="file"/><br/><br/><!-- 
+	           <input type="file" name="uploadFile"/><br/><br/> -->
+	      <input type="submit" value="上传"/>
+	  </form>
+  	
+  	
+  	<a href="<%=basePath%>enclosure/fileDownLoad?fileName=bec2b15a3e6d40bd8057170210e1e36e_简历-重庆1.0.doc">
+        用户头像：bec2b15a3e6d40bd8057170210e1e36e_简历-重庆1.0.doc
+    </a>   
   </body>
 </html>

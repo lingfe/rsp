@@ -25,14 +25,43 @@ public class PublicMapperProvider  {
         if(map.get("state")!=null){
         	whereClause.append(" and state=").append(map.get("state"));
         }
+        
         //生产厂家表_名称、区域信息表_名称
         if(map.get("name")!=null){
         	whereClause.append(" and name like '%").append(map.get("name")).append("%'");
         }
+        
         //编码表_编码名称
         if(map.get("coding_name")!=null){
         	whereClause.append(" and coding_name like '%").append(map.get("coding_name")).append("%'");
         }
+        
+        //流程设置表_流程名称
+        if(map.get("process_name")!=null){
+        	whereClause.append(" and process_name like '%").append(map.get("process_name")).append("%'");
+        }
+        
+        //设备预排表
+        //医院名称
+        if(map.get("infirmary_name")!=null){
+        	whereClause.append(" and infirmary_name='").append(map.get("infirmary_name")).append("'");
+		}
+        //科室
+        if(map.get("department")!=null){
+        	whereClause.append(" and department='").append(map.get("department")).append("'");
+		}
+		if(map.get("is_obtain_rdtl")!=null){
+			whereClause.append(" and is_obtain_rdtl=").append(map.get("infirmary_name"));
+		}
+		if(map.get("is_obtain_rsl")!=null){
+			whereClause.append(" and is_obtain_rsl=").append(map.get("infirmary_name"));
+		}
+		if(map.get("is_obtain_lcl")!=null){
+			whereClause.append(" and is_obtain_lcl=").append(map.get("infirmary_name"));
+		}
+		if(map.get("is_scrap")!=null){
+			whereClause.append(" and is_scrap='").append(map.get("is_scrap"));
+		}
         
         return whereClause.toString();
 	}
@@ -49,13 +78,50 @@ public class PublicMapperProvider  {
         if(map.get("coding_type")!=null){
         	whereClause.append(" and coding_type=").append(map.get("coding_type"));
         }
-        //状态
-        if(map.get("state")!=null){
-        	whereClause.append(" and state=").append(map.get("state"));
-        }
         //编码表_编码名称
         if(map.get("coding_name")!=null){
         	whereClause.append(" and coding_name like '%").append(map.get("coding_name")).append("%'");
+        }
+        
+        
+        //流程设置表_省份
+        if(map.get("province")!=null){
+        	whereClause.append(" and province='").append(map.get("province")).append("'");
+        }
+        //流程设置表_流程类型
+        if(map.get("process_type")!=null){
+        	whereClause.append(" and process_type='").append(map.get("process_type")).append("'");
+        }
+        //流程设置表_流程分类
+        if(map.get("process_classification")!=null){
+        	whereClause.append(" and process_classification='").append(map.get("process_classification")).append("'");
+        }
+        
+        //设备预排表
+        //医院名称
+        if(map.get("infirmary_name")!=null){
+        	whereClause.append(" and infirmary_name='").append(map.get("infirmary_name")).append("'");
+		}
+        //科室
+        if(map.get("department")!=null){
+        	whereClause.append(" and department='").append(map.get("department")).append("'");
+		}
+		if(map.get("is_obtain_rdtl")!=null){
+			whereClause.append(" and is_obtain_rdtl=").append(map.get("infirmary_name"));
+		}
+		if(map.get("is_obtain_rsl")!=null){
+			whereClause.append(" and is_obtain_rsl=").append(map.get("infirmary_name"));
+		}
+		if(map.get("is_obtain_lcl")!=null){
+			whereClause.append(" and is_obtain_lcl=").append(map.get("infirmary_name"));
+		}
+		if(map.get("is_scrap")!=null){
+			whereClause.append(" and is_scrap='").append(map.get("is_scrap"));
+		}
+        
+        //状态
+        if(map.get("state")!=null){
+        	whereClause.append(" and state=").append(map.get("state"));
         }
         whereClause.append(" order by  mdate desc ");
 

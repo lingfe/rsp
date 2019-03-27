@@ -88,12 +88,13 @@ public class CodingController {
 				if(tab_coding!=null){
 					//更新数据
 					tab_coding.setMdate(new Date());
-					tab_coding.setModify(coding.getModify());
+					tab_coding.setModify(sysLog.getCreator());
 					tab_coding.setVersion(String.valueOf(Integer.parseInt(tab_coding.getVersion())+1));
 					tab_coding.setCoding_name(coding.getCoding_name());
 					tab_coding.setCoding_type(coding.getCoding_type());
 					tab_coding.setRemark(coding.getRemark());
 					tab_coding.setState(coding.getState());
+					tab_coding.setStop_explain(coding.getStop_explain());
 					try {
 						//执行更新
 						int tt=icodingService.update(tab_coding);
@@ -255,7 +256,8 @@ public class CodingController {
 		if(!StringUtils.isEmpty(coding.getCoding_name())){
 			//赋值
 			coding.setId(UUID.randomUUID().toString().replace("-", ""));
-			coding.setModify(coding.getCreator());
+			coding.setModify(sysLog.getCreator());
+			coding.setCreator(sysLog.getCreator());
 			
 			try {
 				//执行保存

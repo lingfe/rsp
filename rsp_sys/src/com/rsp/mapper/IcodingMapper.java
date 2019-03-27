@@ -26,10 +26,10 @@ public interface IcodingMapper extends Icoding {
 	List<Tab_coding> pageSelect(Map<String, Object> map);
 
 	@Insert("INSERT  INTO `coding`"
-			+ "(`id`,`coding_type`,`coding_name`,`remark`,"
+			+ "(`id`,`coding_type`,`coding_name`,`remark`,stop_explain,"
 			+ "`state`,`cdate`,`mdate`,`creator`,`modify`,`version`) "
 			+ "VALUES "
-			+ "(#{id},#{coding_type},#{coding_name},#{remark},"
+			+ "(#{id},#{coding_type},#{coding_name},#{remark},#{stop_explain},"
 			+ "#{state},#{cdate},#{mdate},#{creator},#{modify},#{version})")
 	int save(Tab_coding coding);
 	
@@ -38,7 +38,8 @@ public interface IcodingMapper extends Icoding {
 	
 	@Update("update coding set "
 			+ "coding_type=#{coding_type},coding_name=#{coding_name},"
-			+ "remark=#{remark},state=#{state},mdate=#{mdate},modify=#{modify},version=#{version} "
+			+ "remark=#{remark},stop_explain=#{stop_explain},"
+			+ "state=#{state},mdate=#{mdate},modify=#{modify},version=#{version} "
 			+ "where id=#{id}")
 	int update(Tab_coding coding);
 }

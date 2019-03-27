@@ -19,47 +19,109 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.rsp.controller.util.GetIpUtil;
 import com.rsp.model.JosnModel;
 import com.rsp.model.PageModel;
-import com.rsp.model.Tab_manufacturer;
+import com.rsp.model.Tab_process_setting;
 import com.rsp.model.Tab_system_log;
 import com.rsp.model.Tab_user_info;
-import com.rsp.service.ImanufacturerService;
+import com.rsp.service.Iprocess_settingService;
 import com.rsp.service.Isystem_logService;
 import com.rsp.service.IuserinfoService;
 
 /**
  * 
-  * 文件名：ManufacturerController.java
-  * 描述： 生产厂家数据请求表示层
+  * 文件名：Process_settingController.java
+  * 描述： 流程设置表示层
   * 修改人： lingfe
-  * 修改时间：2019年3月22日 下午2:58:27
+  * 修改时间：2019年3月25日 上午10:33:07
   * 修改内容：
  */
 @Controller
-@RequestMapping("/manufacturer")
-public class ManufacturerController {
-
+@RequestMapping("/process_setting")
+public class Process_settingController {
+	
 	//自动装配
-	@Autowired
-	private ImanufacturerService imanufacturerService;
 	
 	//系统日志
 	@Autowired
 	private Isystem_logService isystem_logService;
-	
+		
 	//用户信息
 	@Autowired
 	private IuserinfoService iuserinfoService;
+	
+	//流程设置
+	@Autowired
+	private Iprocess_settingService iprocess_settingService;
 	
 	
 
 	/**
 	 * 
-	 * 分页查询生产厂家信息
+	 * 根据id标识获取流程设置信息
 	 * @author lingfe     
-	 * @created 2019年3月22日 下午3:29:53  
-	 * @param pageIndex	当前页
+	 * @created 2019年3月25日 下午2:42:49  
+	 * @param id
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/getWhereId", method = { RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public JosnModel<Object> getWhereId(
+	    		@RequestParam(value="id",required=false)String id,
+	    		HttpServletRequest request,
+	    		HttpSession session){
+			//实例化对象
+			JosnModel<Object> josn=new JosnModel<Object>();
+			Tab_system_log sysLog=new Tab_system_log();
+			//系统日志
+			sysLog.setIp(GetIpUtil.getIpAddr(request));
+			sysLog.setModel_name("根据id标识获取流程设置信息,"+request.getRequestURI());
+			Object creator=session.getAttribute("userid");
+			if(!StringUtils.isEmpty(creator)){
+				sysLog.setCreator(creator.toString());
+			}
+			sysLog.setModify(sysLog.getCreator());
+			sysLog.setOperation_type(1);
+			
+			try {
+				//验证非空
+				if(!StringUtils.isEmpty(id)){
+					//执行查询
+					Tab_process_setting pro=iprocess_settingService.getWhereId(id);
+					if(pro!=null){
+						josn.msg="请求成功!";
+						josn.state=200;
+						josn.data=pro;
+					}else{
+						josn.msg="id无效或者已经不存在!";
+					}
+				}else{
+					josn.msg="id不能为空！";
+				}
+			} catch (Exception e) {
+				sysLog.setIs_bug(1);
+				josn.msg=e.getMessage();
+				josn.state=500;
+			}
+			//操作说明
+			sysLog.setExceptionally_detailed(josn.msg);
+			//添加系统日志
+			isystem_logService.add(sysLog);
+			
+			return josn;
+		}
+	
+	
+
+	/**
+	 * 
+	 * 分页查询流程设置信息
+	 * @author lingfe     
+	 * @created 2019年3月25日 上午11:17:28  
+	 * @param pageIndex 当前页
 	 * @param pageNum	页容量
-	 * @param name	生产厂家名称
+	 * @param province	省份
+	 * @param process_name	流程名称
 	 * @param state	状态
 	 * @param request
 	 * @param session
@@ -70,19 +132,21 @@ public class ManufacturerController {
 	public JosnModel<Object> pageSelect(
 			@RequestParam(value="pageIndex",required=false,defaultValue="1")Integer pageIndex,
 			@RequestParam(value="pageNum",required=false,defaultValue="10")Integer pageNum,
-			@RequestParam(value="name",required=false)String name,
+			@RequestParam(value="province",required=false)String province,
+			@RequestParam(value="process_type",required=false)String process_type,
+			@RequestParam(value="process_classification",required=false)String process_classification,
 			@RequestParam(value="state",required=false)Integer state,
 	    		HttpServletRequest request,
 	    		HttpSession session){
 			//实例化对象
 			JosnModel<Object> josn=new JosnModel<Object>();
 			Map<String, Object>  map = new HashMap<>();
-			PageModel<Tab_manufacturer> page=new PageModel<Tab_manufacturer>();
+			PageModel<Tab_process_setting> page=new PageModel<Tab_process_setting>();
 			Tab_system_log sysLog=new Tab_system_log();
-			
+		
 			//系统日志
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
-			sysLog.setModel_name("分页查询生产厂家信息,"+request.getRequestURI());
+			sysLog.setModel_name("分页查询流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
 			if(!StringUtils.isEmpty(creator)){
 				sysLog.setCreator(creator.toString());
@@ -93,8 +157,16 @@ public class ManufacturerController {
 			try {
 				//验证非空
 				//赋值参数
-				if(name!=null){
-					map.put("name", name);
+				if(province!=null&&!"".equals(province)){
+					map.put("province", province);
+				}else{
+					josn.msg="省份不能为空!";
+				}
+				if(process_type!=null&&!"".equals(process_type)){
+					map.put("process_type", process_type);
+				}
+				if(process_classification!=null&&!"".equals(process_classification)){
+					map.put("process_classification", process_classification);
 				}
 				if(state!=null){
 					map.put("state", state);
@@ -105,32 +177,32 @@ public class ManufacturerController {
 				page.setPageNum(pageNum);
 				
 				//设置表:编码信息表
-				map.put("table", "manufacturer");
+				map.put("table", "process_setting");
 				
 				//得到总数据量
-				int numCount=imanufacturerService.getCount(map);
+				int numCount=iprocess_settingService.getCount(map);
 				page.setNumCount(numCount);
 				
 				//得到数据
-				List<Tab_manufacturer> list=imanufacturerService.pageSelect(map);
-				//验证非空
-				if(list!=null){
-					for (Tab_manufacturer manufacturer : list) {
+				List<Tab_process_setting> list=iprocess_settingService.pageSelect(map);
+				if(list==null||list.size()<=0){
+					josn.msg="没有数据!添加一条吧!";
+				}else{
+					for (Tab_process_setting pro : list) {
 						//得到创建人名称
-						if(!StringUtils.isEmpty(manufacturer.getCreator())){
-							if(!"游客".equals(manufacturer.getCreator())){
-								Tab_user_info info=iuserinfoService.getWhereId(manufacturer.getCreator());
-								manufacturer.creator_name=info.getUsername();
+						if(!StringUtils.isEmpty(pro.getCreator())){
+							if(!"游客".equals(pro.getCreator())){
+								Tab_user_info info=iuserinfoService.getWhereId(pro.getCreator());
+								if(info!=null){
+									pro.creator_name=info.getUsername();
+								}
 							}
 						}
 					}
-					
+					josn.msg="查询成功!";
 					josn.state=200;
-					josn.msg="请求成功!";
 					page.setList(list);
 					josn.data=page;
-				}else{
-					josn.msg="没有数据,添加一条吧!";
 				}
 				
 			} catch (Exception e) {
@@ -143,17 +215,15 @@ public class ManufacturerController {
 			//添加系统日志
 			isystem_logService.add(sysLog);
 			
-			
 			return josn;
 		}
-	
 
 	/**
 	 * 
-	 * 根据id标识修改生产厂家信息
+	 * 修改流程设置信息
 	 * @author lingfe     
-	 * @created 2019年3月22日 下午3:22:14  
-	 * @param man
+	 * @created 2019年3月25日 上午11:04:04  
+	 * @param tabPro
 	 * @param request
 	 * @param session
 	 * @return
@@ -161,7 +231,7 @@ public class ManufacturerController {
 	@RequestMapping(value = "/update", method = { RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public JosnModel<Object> update(
-				Tab_manufacturer man,
+				Tab_process_setting tabPro,
 	    		HttpServletRequest request,
 	    		HttpSession session){
 			//实例化对象
@@ -169,7 +239,7 @@ public class ManufacturerController {
 			Tab_system_log sysLog=new Tab_system_log();
 			//系统日志
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
-			sysLog.setModel_name("根据id标识修改生产厂家信息,"+request.getRequestURI());
+			sysLog.setModel_name("修改流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
 			if(!StringUtils.isEmpty(creator)){
 				sysLog.setCreator(creator.toString());
@@ -179,35 +249,35 @@ public class ManufacturerController {
 			
 			try {
 				//验证非空
-				if(man!=null){
-					//执行查询
-					Tab_manufacturer manufacturer=imanufacturerService.getWhereId(man.getId());
-					if(manufacturer!=null){
-						sysLog.setTarget_id(man.getId());
+				if(!StringUtils.isEmpty(tabPro)){
+					if(!StringUtils.isEmpty(tabPro.getId())){
+						//执行查询
+						Tab_process_setting pro=iprocess_settingService.getWhereId(tabPro.getId());
 						//赋值
-						manufacturer.setModify(sysLog.getCreator());
-						manufacturer.setName(man.getName());
-						manufacturer.setRemark(man.getRemark());
-						manufacturer.setMdate(new Date());
-						manufacturer.setVersion(String.valueOf(Integer.parseInt(manufacturer.getVersion())+1));
-						manufacturer.setState(man.getState());
+						pro.setProcess_classification(tabPro.getProcess_classification());
+						pro.setProcess_link(tabPro.getProcess_link());
+						pro.setProcess_name(tabPro.getProcess_name());
+						pro.setProcess_type(tabPro.getProcess_type());
+						pro.setMdate(new Date());
+						pro.setModify(sysLog.getCreator());
+						pro.setVersion(String.valueOf(Integer.parseInt(pro.getVersion())+1));
+						pro.setState(tabPro.getState());
 						
-						//执行更新
-						int tt=imanufacturerService.update(manufacturer);
+						//执行更新修改
+						int tt=iprocess_settingService.update(pro);
 						if(tt>=1){
 							josn.msg="修改成功!";
 							josn.state=200;
-							josn.data=manufacturer;
+							josn.data=pro;
 						}else{
-							josn.msg="修改失败";
+							josn.msg="修改失败!";
 						}
 					}else{
-						josn.msg="id无效或者已经不存在了!";
+						josn.msg="id不能为空!";
 					}
 				}else{
-					josn.msg="请填写信息修改!";
+					josn.msg="请输入信息!";
 				}
-				
 			} catch (Exception e) {
 				sysLog.setIs_bug(1);
 				josn.msg=e.getMessage();
@@ -218,16 +288,14 @@ public class ManufacturerController {
 			//添加系统日志
 			isystem_logService.add(sysLog);
 			
-			
 			return josn;
 		}
-	
-	
+
 	/**
 	 * 
-	 * 根据id标识删除生产厂家信息
+	 * 根据id标识删除流程设置信息
 	 * @author lingfe     
-	 * @created 2019年3月22日 下午3:10:18  
+	 * @created 2019年3月25日 上午10:53:46  
 	 * @param id
 	 * @param request
 	 * @param session
@@ -244,7 +312,7 @@ public class ManufacturerController {
 			Tab_system_log sysLog=new Tab_system_log();
 			//系统日志
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
-			sysLog.setModel_name("根据id标识删除生产厂家信息,"+request.getRequestURI());
+			sysLog.setModel_name("根据id标识删除流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
 			if(!StringUtils.isEmpty(creator)){
 				sysLog.setCreator(creator.toString());
@@ -255,19 +323,23 @@ public class ManufacturerController {
 			try {
 				//验证非空
 				if(!StringUtils.isEmpty(id)){
-					//执行删除
-					int tt=imanufacturerService.deleteWhereId(id);
-					if(tt>=1){
-						josn.msg="删除成功!";
-						josn.state=200;
-						sysLog.setTarget_id(id);
+					//执行查询
+					Tab_process_setting tabPro=iprocess_settingService.getWhereId(id);
+					if(tabPro!=null){
+						//执行删除
+						int tt=iprocess_settingService.deleteWhereId(id);
+						if(tt>=0){
+							josn.msg="删除成功!";
+							josn.state=200;
+						}else{
+							josn.msg="删除失败!";
+						}
 					}else{
-						josn.msg="删除失败!";
+						josn.msg="该id无效或者已经被删除了!";
 					}
 				}else{
 					josn.msg="id不能为空!";
 				}
-				
 			} catch (Exception e) {
 				sysLog.setIs_bug(1);
 				josn.msg=e.getMessage();
@@ -278,19 +350,16 @@ public class ManufacturerController {
 			//添加系统日志
 			isystem_logService.add(sysLog);
 			
-			
 			return josn;
 		}
+	
 
-	
-	
 	/**
 	 * 
-	 * 保存生产厂家信息
+	 * 保存流程设置信息
 	 * @author lingfe     
-	 * @created 2019年3月22日 下午3:06:08  
-	 * @param name 名称
-	 * @param remark	备注
+	 * @created 2019年3月25日 上午10:41:22  
+	 * @param tabPro
 	 * @param request
 	 * @param session
 	 * @return
@@ -298,8 +367,7 @@ public class ManufacturerController {
 	@RequestMapping(value = "/save", method = { RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public JosnModel<Object> save(
-	    		@RequestParam(value="name",required=false)String name,
-	    		@RequestParam(value="remark",required=false)String remark,
+				Tab_process_setting tabPro,
 	    		HttpServletRequest request,
 	    		HttpSession session){
 			//实例化对象
@@ -307,7 +375,7 @@ public class ManufacturerController {
 			Tab_system_log sysLog=new Tab_system_log();
 			//系统日志
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
-			sysLog.setModel_name("保存生产厂家信息,"+request.getRequestURI());
+			sysLog.setModel_name("保存流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
 			if(!StringUtils.isEmpty(creator)){
 				sysLog.setCreator(creator.toString());
@@ -317,24 +385,29 @@ public class ManufacturerController {
 			
 			try {
 				//验证非空
-				if(!StringUtils.isEmpty(name)){
-					//赋值
-					Tab_manufacturer man=new Tab_manufacturer();
-					man.setName(name);
-					man.setCreator(sysLog.getCreator());
-					man.setModify(man.getCreator());
-					man.setRemark(remark);
-					
-					//执行保存
-					int tt=imanufacturerService.save(man);
-					if(tt>=1){
-						josn.msg="保存成功!";
-						josn.state=200;
+				if(tabPro!=null){
+					if(!StringUtils.isEmpty(tabPro.getProcess_type())){
+						if(!StringUtils.isEmpty(tabPro.getProcess_name())){
+							//赋值
+							tabPro.setMdate(new Date());
+							
+							//执行保存
+							int tt=iprocess_settingService.save(tabPro);
+							if(tt>=0){
+								josn.msg="保存成功!";
+								josn.state=200;
+								josn.data=tabPro;
+							}else{
+								josn.msg="保存失败!";
+							}
+						}else{
+							josn.msg="请输入流程名称!";
+						}
 					}else{
-						josn.msg="保存失败!";
+						josn.msg="请输入流程分类!";
 					}
 				}else{
-					josn.msg="生产厂家名称不能为空!";
+					josn.msg="请输入参数!";
 				}
 				
 			} catch (Exception e) {

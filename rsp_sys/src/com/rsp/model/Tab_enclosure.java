@@ -8,20 +8,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 
-  * 文件名：Tab_coding.java
-  * 描述： 编码表
+  * 文件名：Tab_enclosure.java
+  * 描述： 附件表
   * 修改人： lingfe
-  * 修改时间：2019年3月19日 下午3:48:13
+  * 修改时间：2019年3月26日 上午9:24:16
   * 修改内容：
  */
-public class Tab_coding {
+public class Tab_enclosure {
+
+	private String id;//	`id` VARCHAR(64) NOT NULL COMMENT '附件表id标识',
+	private String set_id;//	  `set_id` VARCHAR(64) DEFAULT NULL COMMENT 'setid：可以标识设备id，其他id',
+	private String enclosure_type;//	  `enclosure_type` VARCHAR(64) DEFAULT NULL COMMENT '附件类型',
+	private String enclosure_name;//	  `enclosure_name` VARCHAR(1024) DEFAULT NULL COMMENT '附件名称',
+	private String enclosure_remark;//	  `enclosure_remark` VARCHAR(1024) DEFAULT NULL COMMENT '附件说明',
 	
-	private String id;//	  `id` VARCHAR(64) NOT NULL COMMENT '编码表id标识',
-	private Integer coding_type=0;//	  `coding_type` INT(11) DEFAULT NULL COMMENT '编码类型: 0=其他，\n					1=性别，2=职称，3=工作性质，\n					4=职业照射分类，5=附件类别，\n					6=装置类别，7=设备用途，8=流程类型，\n					9=流程分类，',
-	private String coding_name;//	  `coding_name` VARCHAR(64) DEFAULT NULL COMMENT '编码名称',
-	private String remark;//	  `remark` VARCHAR(64) DEFAULT NULL COMMENT '备注',
-	private Integer state=1;//	  `state` INT(11) DEFAULT '1' COMMENT '状态：1=启用，0=停用',
 	
+	private Integer state=0;//	  `state` INT(11) DEFAULT '1' COMMENT '状态',
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date cdate=new Date();//	  `cdate` DATETIME DEFAULT NULL COMMENT '创建时间',
@@ -32,34 +34,25 @@ public class Tab_coding {
 	private String modify;//	  `modify` VARCHAR(64) DEFAULT 'admin' COMMENT '修改人',
 	private String version="0";//	  `version` VARCHAR(64) DEFAULT '0' COMMENT '数据版本',
 	
-	
 	//add   ===>>表示该字段是后来添加，会同步到数据库
-	private String stop_explain;//停用说明
-	
+		
 	//param ===>>表示该字段是参数需要,不会同步到数据库
 	public String creator_name;//创建人名称
 	public String modify_name;//修改人名称
-	
-	
-	
-	
-	public String getStop_explain() {
-		return stop_explain;
-	}
-	public void setStop_explain(String stop_explain) {
-		this.stop_explain = stop_explain;
-	}
 	public String getId() {
 		return id;
 	}
-	public Integer getCoding_type() {
-		return coding_type;
+	public String getSet_id() {
+		return set_id;
 	}
-	public String getCoding_name() {
-		return coding_name;
+	public String getEnclosure_type() {
+		return enclosure_type;
 	}
-	public String getRemark() {
-		return remark;
+	public String getEnclosure_name() {
+		return enclosure_name;
+	}
+	public String getEnclosure_remark() {
+		return enclosure_remark;
 	}
 	public Integer getState() {
 		return state;
@@ -82,14 +75,17 @@ public class Tab_coding {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setCoding_type(Integer coding_type) {
-		this.coding_type = coding_type;
+	public void setSet_id(String set_id) {
+		this.set_id = set_id;
 	}
-	public void setCoding_name(String coding_name) {
-		this.coding_name = coding_name;
+	public void setEnclosure_type(String enclosure_type) {
+		this.enclosure_type = enclosure_type;
 	}
-	public void setRemark(String remark) {
-		this.remark = remark;
+	public void setEnclosure_name(String enclosure_name) {
+		this.enclosure_name = enclosure_name;
+	}
+	public void setEnclosure_remark(String enclosure_remark) {
+		this.enclosure_remark = enclosure_remark;
 	}
 	public void setState(Integer state) {
 		this.state = state;
@@ -109,5 +105,4 @@ public class Tab_coding {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	
 }
