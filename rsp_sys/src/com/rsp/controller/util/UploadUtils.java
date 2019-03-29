@@ -1,19 +1,79 @@
 package com.rsp.controller.util;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+
+import com.rsp.util.GetDateString;
 
 public class UploadUtils {
+	
+	
+	/**
+	 * 
+	 * 文件上传(单个)
+	 * @author lingfe     
+	 * @created 2019年3月27日 下午3:28:40  
+	 * @param file
+	 * @return
+	 * @throws Exception 
+	 */
+	public static String fileUpLoad(CommonsMultipartFile file, 
+			HttpServletRequest request) throws Exception {
+		// 获取ServletContext的对象 代表当前WEB应用
+		ServletContext servletContext = request.getServletContext();
+		//将当前日期作为目录
+		String dateStr=GetDateString.getDate();
+		// 得到文件上传目的位置的真实路径
+		String realPath = servletContext.getRealPath("/fileUpload/"+dateStr);
+		System.out.println("realPath :" + realPath);
+		File file1 = new File(realPath);
+		if (!file1.exists()) {
+			// 如果该目录不存在，就创建此抽象路径名指定的目录。
+			file1.mkdir();
+		}
+		String prefix = UUID.randomUUID().toString();
+		prefix = prefix.replace("-", "");
+		// 使用UUID加前缀命名文件，防止名字重复被覆盖
+		String fileName = prefix + "_" + file.getOriginalFilename();
+
+		// 声明输入输出流
+		InputStream in = file.getInputStream();
+
+		// 指定输出流的位置;
+		OutputStream out = new FileOutputStream(new File(realPath + "\\" + fileName));
+
+		// 这段代码也可以用IOUtils.copy(in, out)工具类的copy方法完成
+		byte[] buffer = new byte[1024];
+		int len = 0;
+		while ((len = in.read(buffer)) != -1) {
+			out.write(buffer, 0, len);
+			// 类似于文件复制，将文件存储到输入流，再通过输出流写入到上传位置
+			out.flush();
+		}
+		// 关闭流
+		out.close();
+		in.close();
+		
+		return null;
+	}
+
+
 	
 	
 	/**

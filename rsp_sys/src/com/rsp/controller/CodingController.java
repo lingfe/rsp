@@ -95,6 +95,7 @@ public class CodingController {
 					tab_coding.setRemark(coding.getRemark());
 					tab_coding.setState(coding.getState());
 					tab_coding.setStop_explain(coding.getStop_explain());
+					
 					try {
 						//执行更新
 						int tt=icodingService.update(tab_coding);
@@ -193,15 +194,20 @@ public class CodingController {
 					for (Tab_coding tab_coding : list) {
 						//得到创建人名称
 						Tab_user_info info=iuserinfoService.getWhereId(tab_coding.getCreator());
-						tab_coding.creator_name=info.getUsername();
+						if(info!=null){
+							tab_coding.creator_name=info.getUsername();
+						}
 						
 						//验证是否停用
 						if(tab_coding.getState()==0){
 							//得到停用人
 							info=iuserinfoService.getWhereId(tab_coding.getModify());
-							tab_coding.modify_name=info.getUsername();
+							if(info!=null){
+								tab_coding.modify_name=info.getUsername();
+							}
 						}else{
-							tab_coding.modify_name="无";
+							tab_coding.modify_name=null;
+							tab_coding.setMdate(null);
 						}
 					}
 					josn.state=200;
@@ -260,14 +266,21 @@ public class CodingController {
 			coding.setCreator(sysLog.getCreator());
 			
 			try {
-				//执行保存
-				int tt=icodingService.save(coding);
-				if(tt>=1){
-					josn.msg="保存成功!";
-					josn.state=200;
-					josn.data=coding;
+				
+				//执行查询是否已经存在相同的编码名称
+				Tab_coding tab=icodingService.getWhereCodingName(coding.getCoding_name());
+				if(tab == null){
+					//执行保存
+					int tt=icodingService.save(coding);
+					if(tt>=1){
+						josn.msg="保存成功!";
+						josn.state=200;
+						josn.data=coding;
+					}else{
+						josn.msg="保存失败!";
+					}
 				}else{
-					josn.msg="保存失败!";
+					josn.msg="该编码名称系统已经存在了!请换一个";
 				}
 			} catch (Exception e) {
 				sysLog.setIs_bug(1);

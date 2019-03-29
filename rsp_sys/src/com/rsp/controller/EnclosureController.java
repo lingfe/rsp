@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.rsp.controller.util.GetIpUtil;
+import com.rsp.controller.util.UploadUtils;
 import com.rsp.model.JosnModel;
 import com.rsp.model.PageModel;
 import com.rsp.model.Tab_enclosure;
@@ -137,63 +138,47 @@ public class EnclosureController {
 	@RequestMapping(value = "/fileUpLoad", method = { RequestMethod.POST, RequestMethod.GET })
 	@ResponseBody
 	public JosnModel<Object> fileUpLoad(
-			@RequestParam("file") CommonsMultipartFile file, 
+			@RequestParam("file") CommonsMultipartFile file,
+			@RequestParam(value="setId",required=false) String setId,
+			@RequestParam(value="remark",required=false) String remark,
 			HttpServletRequest request, HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
+		Tab_enclosure tab=new Tab_enclosure();
 		Tab_system_log sysLog = new Tab_system_log();
 
 		// 系统日志
 		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("附件上传(单个)," + request.getRequestURI());
+		sysLog.setModel_name("保存附件信息-附件上传(单个)," + request.getRequestURI());
 		Object creator = session.getAttribute("userid");
 		if (!StringUtils.isEmpty(creator)) {
 			sysLog.setCreator(creator.toString());
 		}
 		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(0);
+		sysLog.setOperation_type(4);
 
 		try {
-
+			
 			// 验证非空
 			if (file != null) {
-				// 获取ServletContext的对象 代表当前WEB应用
-				ServletContext servletContext = request.getServletContext();
-				//将当前日期作为目录
-				String dateStr=GetDateString.getDate();
-				// 得到文件上传目的位置的真实路径
-				String realPath = servletContext.getRealPath("/fileUpload/"+dateStr);
-				System.out.println("realPath :" + realPath);
-				File file1 = new File(realPath);
-				if (!file1.exists()) {
-					// 如果该目录不存在，就创建此抽象路径名指定的目录。
-					file1.mkdir();
+				if(setId!=null&&!"".equals(setId)){
+					//附件上传
+					josn.data=UploadUtils.fileUpLoad(file, request);
+					josn.msg = "上传成功!";
+					
+					//保存附件信息
+					tab.setId(UUID.randomUUID().toString().replace("-", ""));
+					tab.setSet_id(setId);
+					tab.setEnclosure_remark(remark);
+					tab.setEnclosure_name(file.getOriginalFilename());
+					tab.setCreator(sysLog.getCreator());
+					tab.setModify(tab.getCreator());
+					
+					//执行保存
+					int tt=ienclosuresService.save(tab);
+				}else{
+					josn.msg="set_id不能为空!";
 				}
-				String prefix = UUID.randomUUID().toString();
-				prefix = prefix.replace("-", "");
-				// 使用UUID加前缀命名文件，防止名字重复被覆盖
-				String fileName = prefix + "_" + file.getOriginalFilename();
-
-				// 声明输入输出流
-				InputStream in = file.getInputStream();
-
-				// 指定输出流的位置;
-				OutputStream out = new FileOutputStream(new File(realPath + "\\" + fileName));
-
-				// 这段代码也可以用IOUtils.copy(in, out)工具类的copy方法完成
-				byte[] buffer = new byte[1024];
-				int len = 0;
-				while ((len = in.read(buffer)) != -1) {
-					out.write(buffer, 0, len);
-					// 类似于文件复制，将文件存储到输入流，再通过输出流写入到上传位置
-					out.flush();
-				}
-				// 关闭流
-				out.close();
-				in.close();
-
-				josn.data=fileName;
-				josn.msg = "上传成功!";
 			} else {
 				josn.msg = "请选择要上传的附件!";
 			}
@@ -227,9 +212,12 @@ public class EnclosureController {
 	@ResponseBody
 	public JosnModel<Object> fileUpLoadAll(
 			@RequestParam MultipartFile[] uploadFile,
+			@RequestParam(value="setId",required=false) String setId,
+			@RequestParam(value="remark",required=false) String remark,
 			HttpServletRequest request, HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
+		Tab_enclosure tab=new Tab_enclosure();
 		Tab_system_log sysLog = new Tab_system_log();
 
 		// 系统日志
@@ -243,7 +231,6 @@ public class EnclosureController {
 		sysLog.setOperation_type(0);
 
 		try {
-
 			// 验证非空
 			if (uploadFile != null) {
 				for (MultipartFile item : uploadFile) {
@@ -258,10 +245,22 @@ public class EnclosureController {
 						//执行
 						item.transferTo(file);
 						
-						josn.data=fileName;
+						//保存附件信息
+						tab.setId(UUID.randomUUID().toString().replace("-", ""));
+						tab.setSet_id(setId);
+						tab.setEnclosure_remark(remark);
+						tab.setEnclosure_name(item.getOriginalFilename());
+						tab.setCreator(sysLog.getCreator());
+						tab.setModify(tab.getCreator());
 						
+						//执行保存
+						int tt=ienclosuresService.save(tab);
+						if(tt<1){
+							break;
+						}
 					}
 				}
+				
 				josn.msg = "上传成功!";
 			} else {
 				josn.msg = "请选择要上传的附件!";

@@ -9,6 +9,9 @@ import com.rsp.model.Tab_coding;
 public interface IcodingService extends Icoding {
 	
 	@Override
+	Tab_coding getWhereCodingName(String coding_name);
+	
+	@Override
 	Tab_coding getWhereId(String id);
 	
 	@Override

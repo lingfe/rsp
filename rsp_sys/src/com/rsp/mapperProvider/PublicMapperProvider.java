@@ -26,6 +26,21 @@ public class PublicMapperProvider  {
         	whereClause.append(" and state=").append(map.get("state"));
         }
         
+        //证照预排表	start
+        if(map.get("hospital_name")!=null){
+        	whereClause.append(" and hospital_name='").append(map.get("hospital_name")).append("'");
+		}
+		if(map.get("prearranged_type")!=null){
+			whereClause.append(" and prearranged_type='").append(map.get("prearranged_type")).append("'");
+		}
+		if(map.get("licence_type")!=null){
+			whereClause.append(" and licence_type='").append(map.get("licence_type")).append("'");
+		}
+		if(map.get("certificates_number")!=null){
+			whereClause.append(" and certificates_number='").append(map.get("certificates_number")).append("'");
+		}
+		//end
+        
         //生产厂家表_名称、区域信息表_名称
         if(map.get("name")!=null){
         	whereClause.append(" and name like '%").append(map.get("name")).append("%'");
@@ -73,7 +88,24 @@ public class PublicMapperProvider  {
         whereClause.append("select * from ");
         whereClause.append(map.get("table"));
         whereClause.append(" where 1=1  ");
+        
         //验证条件
+        
+        //证照预排表	start
+        if(map.get("hospital_name")!=null){
+        	whereClause.append(" and hospital_name='").append(map.get("hospital_name")).append("'");
+		}
+		if(map.get("prearranged_type")!=null){
+			whereClause.append(" and prearranged_type='").append(map.get("prearranged_type")).append("'");
+		}
+		if(map.get("licence_type")!=null){
+			whereClause.append(" and licence_type='").append(map.get("licence_type")).append("'");
+		}
+		if(map.get("certificates_number")!=null){
+			whereClause.append(" and certificates_number='").append(map.get("certificates_number")).append("'");
+		}
+		//end
+		
         //编码表_编码类型
         if(map.get("coding_type")!=null){
         	whereClause.append(" and coding_type=").append(map.get("coding_type"));

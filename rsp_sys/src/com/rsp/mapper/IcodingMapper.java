@@ -16,6 +16,9 @@ import com.rsp.model.Tab_coding;
 
 public interface IcodingMapper extends Icoding {
 	
+	@Select("select * from coding where coding_name=#{coding_name}")
+	Tab_coding getWhereCodingName(@Param("coding_name")String coding_name);
+	
 	@Select("select * from coding where id=#{id}")
 	Tab_coding getWhereId(@Param("id")String id);
 	

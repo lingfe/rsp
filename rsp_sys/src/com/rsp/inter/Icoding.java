@@ -17,6 +17,16 @@ public interface Icoding {
 	
 	/**
 	 * 
+	 * 根据编码名称查询编码信息
+	 * @author lingfe     
+	 * @created 2019年3月28日 下午4:48:39  
+	 * @param codingName
+	 * @return
+	 */
+	Tab_coding getWhereCodingName(String coding_name);
+	
+	/**
+	 * 
 	 * 根据编码信息id标识查询信息
 	 * @author lingfe     
 	 * @created 2019年3月20日 上午10:52:24  

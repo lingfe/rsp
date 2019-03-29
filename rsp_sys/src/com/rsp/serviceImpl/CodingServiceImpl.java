@@ -54,6 +54,11 @@ public class CodingServiceImpl implements IcodingService {
 	public int update(Tab_coding coding) {
 		return icodingMapper.update(coding);
 	}
+
+	@Override
+	public Tab_coding getWhereCodingName(String coding_name) {
+		return icodingMapper.getWhereCodingName(coding_name);
+	}
 	
 		
 }

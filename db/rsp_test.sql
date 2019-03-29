@@ -16,50 +16,64 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`rsp` /*!40100 DEFAULT CHARACTER SET utf
 
 USE `rsp`;
 
-/*Table structure for table `equipment_walkthrough` */
+/*Table structure for table `licence_walkthrough` */
 
-DROP TABLE IF EXISTS `equipment_walkthrough`;
+CREATE TABLE project_manage(
 
-CREATE TABLE `equipment_walkthrough` (
-  `id` varchar(64) NOT NULL COMMENT '设备预排表id标识',
-  `equipment_name` varchar(64) DEFAULT NULL COMMENT '设备名称',
-  `specification_type` varchar(64) DEFAULT NULL COMMENT '规格型号',
-  `device_class` varchar(64) DEFAULT NULL COMMENT '装置类别',
-  `equipment_number` varchar(64) DEFAULT NULL COMMENT '设备编号',
-  `manufacturer` varchar(64) DEFAULT NULL COMMENT '生产厂家',
-  `rated_voltage_kv` varchar(64) DEFAULT NULL COMMENT '额定电压（kV）',
-  `rated_current_mA` varchar(64) DEFAULT NULL COMMENT '额定电流（mA）',
-  `rated_power_w` varchar(64) DEFAULT NULL COMMENT '额定功率（w,kw)',
-  `equipment_nameplate_photo` varchar(64) DEFAULT NULL COMMENT '设备铭牌照片',
-  `department` varchar(64) DEFAULT NULL COMMENT '科室',
-  `purpose` varchar(64) DEFAULT NULL COMMENT '用途',
-  `location` varchar(64) DEFAULT NULL COMMENT '所在场所',
-  `is_obtain_rdtl` int(11) DEFAULT '0' COMMENT '是否取得放射诊疗许可证: 0=否，1=是',
-  `obtain_rdtl_date` date DEFAULT NULL COMMENT '取得放射诊疗许可证时间',
-  `is_obtain_rsl` int(11) DEFAULT '0' COMMENT '是否取得辐射安全许可证: 0=否，1=是',
-  `obtain_rsl_date` date DEFAULT NULL COMMENT '取得辐射安全许可证时间',
-  `is_obtain_lcl` int(11) DEFAULT '0' COMMENT '是否取得大型配置许可证: 0=否，1=是',
-  `obtain_lcl_date` date DEFAULT NULL COMMENT '取得大型配置许可证时间',
-  `source` varchar(64) DEFAULT NULL COMMENT '来源',
-  `installation_date` date DEFAULT NULL COMMENT '安装时间',
-  `whereabouts` varchar(64) DEFAULT NULL COMMENT '去向',
-  `scrap_date` date DEFAULT NULL COMMENT '报废时间',
-  `annual_inspection_report` varchar(64) DEFAULT NULL COMMENT '年检报告(上传)',
-  `instructions_for_equipment` varchar(64) DEFAULT NULL COMMENT '设备说明书(上传)',
-  `medical_care_certificate` varchar(64) DEFAULT NULL COMMENT '医疗器械注册证(上传)',
-  `state` int(11) DEFAULT '1' COMMENT '状态：1=启用，0=停用',
-  `cdate` datetime DEFAULT NULL COMMENT '创建时间',
-  `mdate` datetime DEFAULT NULL COMMENT '最后修改时间',
-  `creator` varchar(64) DEFAULT 'admin' COMMENT '创建人',
-  `modify` varchar(64) DEFAULT 'admin' COMMENT '修改人或者停用人的id',
-  `version` varchar(64) DEFAULT '0' COMMENT '数据版本',
-  PRIMARY KEY (`id`),
-  KEY `creator` (`creator`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='设备编码表';
+	id VARCHAR(64) NOT NULL COMMENT '项目管理表id标识',
+	NAME VARCHAR(64) COMMENT '项目名称',
+	start_date DATETIME COMMENT '开始时间',
+	end_date DATETIME COMMENT '结束时间',
+	person_in_charge VARCHAR(64) COMMENT '负责人',
+	attribution_office VARCHAR(64) COMMENT '归属科室',
+	TYPE VARCHAR(64) COMMENT '项目类型',
+	classification VARCHAR(64) COMMENT '项目分类',
+	procedure_link VARCHAR(64) COMMENT '流程环节',
+	remark VARCHAR(1024) COMMENT '项目说明',
 
-/*Data for the table `equipment_walkthrough` */
+  `state` INT(11) DEFAULT '1' COMMENT '状态',
+  `cdate` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `mdate` DATETIME DEFAULT NULL COMMENT '最后修改时间',
+  `creator` VARCHAR(64) DEFAULT 'admin' COMMENT '创建人',
+  `modify` VARCHAR(64) DEFAULT 'admin' COMMENT '修改人',
+  `version` VARCHAR(64) DEFAULT '0' COMMENT '数据版本',
+  PRIMARY KEY (`id`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='项目管理表';
 
-insert  into `equipment_walkthrough`(`id`,`equipment_name`,`specification_type`,`device_class`,`equipment_number`,`manufacturer`,`rated_voltage_kv`,`rated_current_mA`,`rated_power_w`,`equipment_nameplate_photo`,`department`,`purpose`,`location`,`is_obtain_rdtl`,`obtain_rdtl_date`,`is_obtain_rsl`,`obtain_rsl_date`,`is_obtain_lcl`,`obtain_lcl_date`,`source`,`installation_date`,`whereabouts`,`scrap_date`,`annual_inspection_report`,`instructions_for_equipment`,`medical_care_certificate`,`state`,`cdate`,`mdate`,`creator`,`modify`,`version`) values ('2222222','343','1','2','3','4','5','6','7','8','9','10','11',0,'2019-03-26',0,NULL,0,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1,NULL,NULL,'23423423423','admin','0');
+DROP TABLE IF EXISTS `licence_walkthrough`;
+
+CREATE TABLE `licence_walkthrough` (
+  `id` VARCHAR(64) NOT NULL COMMENT '证照预排表id标识',
+  `hospital_name` VARCHAR(64) DEFAULT NULL COMMENT '医院名称',
+  `prearranged_type` VARCHAR(64) DEFAULT NULL COMMENT '预排类型',
+  `licence_type` VARCHAR(64) DEFAULT NULL COMMENT '证照类型',
+  `certificates_number` VARCHAR(64) DEFAULT NULL COMMENT '证件编号',
+  `organization_name` VARCHAR(64) DEFAULT NULL COMMENT '机构名称',
+  `legal_person_charge` VARCHAR(64) DEFAULT NULL COMMENT '负责人/法人',
+  `address` VARCHAR(64) DEFAULT NULL COMMENT '地址',
+  `remark` VARCHAR(64) DEFAULT NULL COMMENT '备注',
+  `is_annual_inspection` INT(11) DEFAULT NULL COMMENT '是否年度检验:0=否，1=是',
+  `is_annual_assessment` INT(11) DEFAULT NULL COMMENT '是否年度评估:0=否，1=是',
+  `is_licence_continue` INT(11) DEFAULT NULL COMMENT '是否证照延续:0=否，1=是',
+  `inspection_date` DATETIME DEFAULT NULL COMMENT '检验时间',
+  `inspection_cycle` VARCHAR(64) NOT NULL COMMENT '检验周期',
+  `assessment_date` DATETIME DEFAULT NULL COMMENT '评估时间',
+  `evaluation_cycle` VARCHAR(64) NOT NULL COMMENT '评估周期',
+  `valid_certificate` VARCHAR(64) DEFAULT NULL COMMENT '有效期',
+  `certification_authority` VARCHAR(64) DEFAULT NULL COMMENT '发证机构',
+  `issuing_date` DATETIME DEFAULT NULL COMMENT '发证时间',
+  `state` INT(11) DEFAULT '1' COMMENT '状态',
+  `cdate` DATETIME DEFAULT NULL COMMENT '创建时间',
+  `mdate` DATETIME DEFAULT NULL COMMENT '最后修改时间',
+  `creator` VARCHAR(64) DEFAULT 'admin' COMMENT '创建人',
+  `modify` VARCHAR(64) DEFAULT 'admin' COMMENT '修改人',
+  `version` VARCHAR(64) DEFAULT '0' COMMENT '数据版本',
+  PRIMARY KEY (`id`,`evaluation_cycle`)
+) ENGINE=INNODB DEFAULT CHARSET=utf8 COMMENT='证照预排表';
+
+/*Data for the table `licence_walkthrough` */
+
+INSERT  INTO `licence_walkthrough`(`id`,`hospital_name`,`prearranged_type`,`licence_type`,`certificates_number`,`organization_name`,`legal_person_charge`,`address`,`remark`,`is_annual_inspection`,`is_annual_assessment`,`is_licence_continue`,`inspection_date`,`inspection_cycle`,`assessment_date`,`evaluation_cycle`,`valid_certificate`,`certification_authority`,`issuing_date`,`state`,`cdate`,`mdate`,`creator`,`modify`,`version`) VALUES ('234235234234','士大夫',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'',NULL,'',NULL,NULL,NULL,1,NULL,NULL,'','admin','0');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

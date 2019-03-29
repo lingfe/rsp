@@ -120,7 +120,9 @@ public class ManufacturerController {
 						if(!StringUtils.isEmpty(manufacturer.getCreator())){
 							if(!"游客".equals(manufacturer.getCreator())){
 								Tab_user_info info=iuserinfoService.getWhereId(manufacturer.getCreator());
-								manufacturer.creator_name=info.getUsername();
+								if(info!=null){
+									manufacturer.creator_name=info.getUsername();
+								}
 							}
 						}
 					}
