@@ -17,10 +17,11 @@ import com.rsp.model.Tab_process_setting;
 public interface Iprocess_settingMapper extends Iprocess_setting  {
 	
 	@Update("update process_setting set "
-			+ "province=#{province},process_type=#{process_type},"
+			+ "hospital_id=#{hospital_id},province=#{province},process_type=#{process_type},"
 			+ "process_classification=#{process_classification},"
 			+ "process_name=#{process_name},process_link=#{process_link},remark=#{remark},"
-			+ "state=#{state},mdate=#{mdate},modify=#{modify},version=#{version} "
+			+ "stop_flag=#{stop_flag},stop_code=#{stop_code},stop_name=#{stop_name},stop_date=#{stop_date},stop_explain=#{stop_explain},"
+			+ "state=#{state},modify_code=#{modify_code},modify_name=#{modify_name},modify_date=#{modify_name},version=#{version} "
 			+ "where id=#{id}")
 	int update(Tab_process_setting pro);
 	
@@ -37,11 +38,15 @@ public interface Iprocess_settingMapper extends Iprocess_setting  {
 	List<Tab_process_setting> pageSelect(Map<String, Object> map);
 	
 	@Insert("INSERT  INTO `process_setting`"
-			+ "(`id`,province,`process_type`,`process_classification`,`process_name`,`process_link`,`remark`,"
-			+ "`state`,`cdate`,`mdate`,`creator`,`modify`,`version`) "
+			+ "(`id`,hospital_id,province,`process_type`,`process_classification`,`process_name`,`process_link`,`remark`,"
+			+ "stop_flag,stop_code,stop_name,stop_date,stop_explain,"
+			+ "`state`,`crt_code`,crt_name,crt_date,"
+			+ "`modify_code`,`modify_name`,`modify_date`,`version`) "
 			+ "VALUES "
-			+ "(#{id},#{province},#{process_type},#{process_classification},#{process_name},#{process_link},#{remark},"
-			+ "#{state},#{cdate},#{mdate},#{creator},#{modify},#{version})")
+			+ "(#{id},#{hospital_id},#{province},#{process_type},#{process_classification},#{process_name},#{process_link},#{remark},"
+			+ "#{stop_flag},#{stop_code},#{stop_name},#{stop_date},#{stop_explain},"
+			+ "#{state},#{crt_code},#{crt_name},#{crt_date},"
+			+ "#{modify_code},#{modify_name},#{modify_date},#{version})")
 	int save(Tab_process_setting pro);
 	
 }

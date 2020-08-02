@@ -1,24 +1,15 @@
 package com.rsp.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -30,21 +21,24 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.rsp.controller.util.GetIpUtil;
+import com.rsp.controller.util.LogUtils;
+import com.rsp.controller.util.SYS_GET;
 import com.rsp.controller.util.UploadUtils;
 import com.rsp.model.JosnModel;
 import com.rsp.model.PageModel;
 import com.rsp.model.Tab_enclosure;
-import com.rsp.model.Tab_system_log;
 import com.rsp.model.Tab_user_info;
 import com.rsp.service.IenclosuresService;
-import com.rsp.service.Isystem_logService;
+import com.rsp.service.Isys_system_logService;
 import com.rsp.service.IuserinfoService;
-import com.rsp.util.GetDateString;
 
 /**
  * 
- * 文件名：EnclosureController.java 描述： 附件信息请求访问表层 修改人： lingfe 修改时间：2019年3月26日
- * 上午9:52:41 修改内容：
+ * 文件名：EnclosureController.java 
+ * 描述： 附件信息请求访问表层 
+ * 修改人： lingfe 
+ * 修改时间：2019年3月26日 上午9:52:41 
+ * 修改内容：
  */
 @Controller
 @RequestMapping("/enclosure")
@@ -54,13 +48,20 @@ public class EnclosureController {
 	@Autowired
 	private IenclosuresService ienclosuresService;
 
-	// 系统日志
-	@Autowired
-	private Isystem_logService isystem_logService;
-
 	// 用户信息
 	@Autowired
 	private IuserinfoService iuserinfoService;
+	
+	//系统日志
+	@Autowired
+	private Isys_system_logService isys_system_logService;
+	
+	/**
+	 * 是否有异常bug
+	 */
+	private int flag_bug=0;
+	
+	
 
 	/**
 	 * 
@@ -74,54 +75,26 @@ public class EnclosureController {
 	 */
 	@RequestMapping(value = "/fileDownLoad", method = { RequestMethod.POST, RequestMethod.GET })
 	public ResponseEntity<byte[]> fileDownLoad(
-			@RequestParam("fileName") String fileName, 
+			@RequestParam("id") String id, 
 			HttpServletRequest request, HttpSession session) {
-		// 实例化对象 
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("附件下载," + request.getRequestURI());
-		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(0);
-
 		try {
 			// 验证非空
-			if (fileName != null) {
-				// 获取ServletContext的对象 代表当前WEB应用
-				ServletContext servletContext = request.getServletContext();
-				//fileName = "童话镇.mp3";
-				// 得到文件所在位置
-				String realPath = servletContext.getRealPath("/fileUpload/" + fileName);
-				// 将该文件加入到输入流之中
-				InputStream in = new FileInputStream(new File(realPath));
-				byte[] body = null;
-				// 返回下一次对此输入流调用的方法可以不受阻塞地从此输入流读取（或跳过）的估计剩余字节数
-				body = new byte[in.available()];
-				// 读入到输入流里面
-				in.read(body);
-				
-				
-				HttpHeaders headers=new HttpHeaders();//设置响应头
-			    headers.add("Content-Disposition", "attachment;filename="+fileName);
-			    HttpStatus statusCode = HttpStatus.OK;//设置响应吗
-			    ResponseEntity<byte[]> response=new ResponseEntity<byte[]>(body, headers, statusCode);
-			     
-				return response;
+			if (id != null) {
+				//chax 
+				Tab_enclosure fjxx= ienclosuresService.getWhereId(id);
+				if(fjxx!=null){
+					//下载文件
+					return UploadUtils.downLoad(request,fjxx.getPath());
+				}
 			}
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
-			// 操作说明
-			sysLog.setExceptionally_detailed(e.getMessage());
+			flag_bug=1;
+			session.setAttribute("czsm", e.getMessage());
 		}
-		
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
+		//系统日志
+		LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+				"附件下载",
+				session.getAttribute("czsm"),session,isys_system_logService);
 		return null;
 	}
 	
@@ -139,60 +112,76 @@ public class EnclosureController {
 	@ResponseBody
 	public JosnModel<Object> fileUpLoad(
 			@RequestParam("file") CommonsMultipartFile file,
-			@RequestParam(value="setId",required=false) String setId,
+			@RequestParam(value="yw_id",required=false) String yw_id,
+			@RequestParam(value="coding_type",required=false)String coding_type,
 			@RequestParam(value="remark",required=false) String remark,
 			HttpServletRequest request, HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
 		Tab_enclosure tab=new Tab_enclosure();
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("保存附件信息-附件上传(单个)," + request.getRequestURI());
+		
+		//用户信息
 		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
+		if(SYS_GET.IS_SESSION_VALIDATE){
+			if(StringUtils.isEmpty(creator)){
+				josn.msg="会话过期!请重新登录";
+				return josn;
+			}
+		}else{
+			creator=GetIpUtil.getIpAddr(request);
 		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(4);
 
 		try {
-			
 			// 验证非空
 			if (file != null) {
-				if(setId!=null&&!"".equals(setId)){
+				if(yw_id!=null&&!"".equals(yw_id)){
 					//附件上传
-					josn.data=UploadUtils.fileUpLoad(file, request);
-					josn.msg = "上传成功!";
-					
-					//保存附件信息
-					tab.setId(UUID.randomUUID().toString().replace("-", ""));
-					tab.setSet_id(setId);
-					tab.setEnclosure_remark(remark);
-					tab.setEnclosure_name(file.getOriginalFilename());
-					tab.setCreator(sysLog.getCreator());
-					tab.setModify(tab.getCreator());
-					
-					//执行保存
-					int tt=ienclosuresService.save(tab);
+					Map<String, Object> map =UploadUtils.fileUpLoad(file, request);
+					Object state=map.get("state");
+					if("200".equals(state.toString())){
+						//保存附件信息
+						tab.setId(UUID.randomUUID().toString().replace("-", ""));
+						tab.setYw_id(yw_id);
+						tab.setCoding_type(coding_type);
+						tab.setFj_remark(remark);
+						tab.setFj_name_real(map.get("old_name").toString());
+						tab.setFj_name_sys(map.get("prefix").toString());
+						tab.setFj_size(Integer.parseInt(map.get("size").toString()));
+						tab.setFlag_type(Integer.valueOf(map.get("type").toString()));
+						tab.setPath(map.get("full_path").toString());
+						Object hospital_id=session.getAttribute("hospital_id");
+						if(hospital_id!=null){
+							tab.setHospital_id(hospital_id.toString());
+						}
+						
+						//创建人信息
+						tab.setCrt_code(creator.toString());
+						tab.setCrt_date(new Date());
+						tab.setCrt_name(creator.toString());
+						
+						//执行保存
+						ienclosuresService.save(tab);
+						josn.state=200;
+						josn.data=tab;
+					}
+					josn.msg=map.get("msg").toString();
 				}else{
-					josn.msg="set_id不能为空!";
+					josn.msg="yw_id不能为空!";
 				}
 			} else {
 				josn.msg = "请选择要上传的附件!";
 			}
 
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
+			flag_bug=1;
 			josn.msg = e.getMessage();
 			josn.state = 500;
 		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
+		//系统日志
+		LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+						"附件上传(单个)",
+						josn.msg,session,isys_system_logService);
+				
 		return josn;
 	}
 
@@ -213,50 +202,54 @@ public class EnclosureController {
 	public JosnModel<Object> fileUpLoadAll(
 			@RequestParam MultipartFile[] uploadFile,
 			@RequestParam(value="setId",required=false) String setId,
+			@RequestParam(value="coding_type",required=false)String coding_type,
 			@RequestParam(value="remark",required=false) String remark,
 			HttpServletRequest request, HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
 		Tab_enclosure tab=new Tab_enclosure();
-		Tab_system_log sysLog = new Tab_system_log();
 
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("附件上传(多个)," + request.getRequestURI());
 		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
+		if(SYS_GET.IS_SESSION_VALIDATE){
+			if(StringUtils.isEmpty(creator)){
+				josn.msg="会话过期!请重新登录";
+				return josn;
+			}
+		}else{
+			creator=GetIpUtil.getIpAddr(request);
 		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(0);
 
 		try {
 			// 验证非空
 			if (uploadFile != null) {
 				for (MultipartFile item : uploadFile) {
 					if(item.getSize()>0){
-						//获取文件名
-						String fileName=item.getOriginalFilename();
-						//前半部分路径，目录，
-						String leftPath=session.getServletContext().getRealPath("/fileUpload");
-						//进行路径拼接
-						File file=new File(leftPath,fileName);
-						
-						//执行
-						item.transferTo(file);
-						
-						//保存附件信息
-						tab.setId(UUID.randomUUID().toString().replace("-", ""));
-						tab.setSet_id(setId);
-						tab.setEnclosure_remark(remark);
-						tab.setEnclosure_name(item.getOriginalFilename());
-						tab.setCreator(sysLog.getCreator());
-						tab.setModify(tab.getCreator());
-						
-						//执行保存
-						int tt=ienclosuresService.save(tab);
-						if(tt<1){
-							break;
+						//上传
+						Map<String, Object> map=UploadUtils.fileUpLoad(item, request, null);
+						if(map.get("state")=="200"){
+							//保存附件信息
+							tab.setId(UUID.randomUUID().toString().replace("-", ""));
+							tab.setYw_id(setId);
+							tab.setCoding_type(coding_type);
+							tab.setFj_remark(remark);
+							tab.setFj_name_real(map.get("old_name").toString());
+							tab.setFj_name_sys(map.get("prefix").toString());
+							tab.setFj_size(Integer.parseInt(map.get("size").toString()));
+							tab.setFlag_type(Integer.valueOf(map.get("type").toString()));
+							tab.setHospital_id(session.getAttribute("hospital_id").toString());
+							
+							//创建人信息
+							tab.setCrt_code(creator.toString());
+							tab.setCrt_date(new Date());
+							tab.setCrt_name(creator.toString());
+							
+							//执行保存
+							int tt=ienclosuresService.save(tab);
+							if(tt<1){
+								break;
+							}
+						}else{
+							josn.msg=map.get("msg").toString();
 						}
 					}
 				}
@@ -267,95 +260,21 @@ public class EnclosureController {
 			}
 
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
+			flag_bug=1;
 			josn.msg = e.getMessage();
 			josn.state = 500;
 		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
-		return josn;
-	}
-
-	/**
-	 * 
-	 * 修改附件信息
-	 * 
-	 * @author lingfe
-	 * @created 2019年3月26日 上午10:18:30
-	 * @param tab
-	 * @param request
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = "/update", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
-	public JosnModel<Object> update(Tab_enclosure tab, HttpServletRequest request, HttpSession session) {
-		// 实例化对象
-		JosnModel<Object> josn = new JosnModel<Object>();
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("修改附件信息," + request.getRequestURI());
-		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(2);
-
-		try {
-			// 验证非空
-			if (tab != null) {
-				if (tab.getId() != null && !"".equals(tab.getId())) {
-					// 执行查询
-					Tab_enclosure en = ienclosuresService.getWhereId(tab.getId());
-					// 更新赋值
-					en.setSet_id(tab.getSet_id());
-					en.setModify(sysLog.getCreator());
-					en.setMdate(new Date());
-					en.setVersion(String.valueOf(Integer.parseInt(en.getVersion()) + 1));
-					en.setEnclosure_name(tab.getEnclosure_name());
-					en.setEnclosure_remark(tab.getEnclosure_remark());
-					en.setEnclosure_type(tab.getEnclosure_type());
-					en.setState(tab.getState());
-
-					// 执行修改更新
-					int tt = ienclosuresService.update(tab);
-					if (tt >= 0) {
-						josn.msg = "修改成功!";
-						josn.state = 200;
-						josn.data = en;
-					} else {
-						josn.msg = "修改失败!";
-					}
-				} else {
-					josn.msg = "id不能为空!";
-				}
-			} else {
-				josn.msg = "请填写附件信息!";
-			}
-
-		} catch (Exception e) {
-			sysLog.setIs_bug(1);
-			josn.msg = e.getMessage();
-			josn.state = 500;
-		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
+		//系统日志
+		LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+								"附件上传(多个)",
+								josn.msg,session,isys_system_logService);
+						
 		return josn;
 	}
 
 	/**
 	 * 
 	 * 根据id标识删除附件信息
-	 * 
 	 * @author lingfe
 	 * @created 2019年3月26日 上午10:10:54
 	 * @param id
@@ -369,42 +288,38 @@ public class EnclosureController {
 			HttpServletRequest request, HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("根据id标识删除附件信息," + request.getRequestURI());
-		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(3);
-
+		
 		try {
-			// 验证非空
-			if (id != null && !"".equals(id)) {
-				// 执行删除
-				int tt = ienclosuresService.deleteWhereId(id);
-				if (tt >= 1) {
-					josn.msg = "删除成功!";
-					josn.state = 200;
-				} else {
-					josn.msg = "删除失败!";
+			if(id!=null&&!"".equals(id)){
+				String[] str=id.split(",");
+				for (String s : str) {
+					//查询
+					Tab_enclosure tab=ienclosuresService.getWhereId(s);
+					if (tab != null) {
+						// 执行删除
+						int tt = ienclosuresService.deleteWhereId(s);
+						if (tt >= 1) {
+							//执行删除文件
+							UploadUtils.deleteFile(null);
+							josn.msg = "删除成功!";
+							josn.state = 200;
+						} else {
+							josn.msg = "删除失败!";
+						}
+					} else {
+						josn.msg = "id无效!";
+					}
 				}
-			} else {
-				josn.msg = "id不能为空！";
 			}
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
 			josn.msg = e.getMessage();
 			josn.state = 500;
 		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
+		//系统日志
+		LogUtils.jieLuSystemLog(request,LogUtils.DELETE,flag_bug,
+										"删除附件",
+										josn.msg,session,isys_system_logService);
+					
 		return josn;
 	}
 
@@ -426,37 +341,36 @@ public class EnclosureController {
 	public JosnModel<Object> pageSelect(
 			@RequestParam(value = "pageIndex", required = false, defaultValue = "1") Integer pageIndex,
 			@RequestParam(value = "pageNum", required = false, defaultValue = "10") Integer pageNum,
-			@RequestParam(value = "state", required = false) Integer state, HttpServletRequest request,
+			@RequestParam(value = "yw_id", required=false)String yw_id,
+			@RequestParam(value = "coding_type", required=false)String coding_type,
+			@RequestParam(value = "state", required = false) Integer state, 
+			HttpServletRequest request,
 			HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
 		Map<String, Object> map = new HashMap<>();
 		PageModel<Tab_enclosure> page = new PageModel<Tab_enclosure>();
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("分页查询附件信息," + request.getRequestURI());
-		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(1);
 
 		try {
 			// 验证非空
-			// 赋值参数
+			if(!StringUtils.isEmpty(yw_id)){
+				map.put("yw_id", yw_id);
+			}
+			if(!StringUtils.isEmpty(coding_type)){
+				map.put("coding_type", coding_type);
+			}
 			if (state != null) {
 				map.put("state", state);
 			}
+			
+			// 赋值参数
 			map.put("pageIndex", pageIndex);
 			map.put("pageNum", pageNum);
 			page.setPageIndex(pageIndex);
 			page.setPageNum(pageNum);
 
 			// 设置表:附件表
-			map.put("table", "enclosure");
+			map.put("table", "sys_fjxx");
 
 			// 得到总数据量
 			int numCount = ienclosuresService.getCount(map);
@@ -468,13 +382,9 @@ public class EnclosureController {
 			if (list != null) {
 				for (Tab_enclosure tab : list) {
 					// 得到创建人名称
-					if (!StringUtils.isEmpty(tab.getCreator())) {
-						if (!"游客".equals(tab.getCreator())) {
-							Tab_user_info info = iuserinfoService.getWhereId(tab.getCreator());
-							if (info != null) {
-								tab.creator_name = info.getUsername();
-							}
-						}
+					Tab_user_info info = iuserinfoService.getWhereId(tab.getCrt_code());
+					if (info != null) {
+						tab.setCrt_name(info.getUsername());
 					}
 				}
 
@@ -487,15 +397,9 @@ public class EnclosureController {
 			}
 
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
 			josn.msg = e.getMessage();
 			josn.state = 500;
 		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
 		return josn;
 	}
 
@@ -516,17 +420,6 @@ public class EnclosureController {
 			HttpServletRequest request, HttpSession session) {
 		// 实例化对象
 		JosnModel<Object> josn = new JosnModel<Object>();
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("根据id标识获取数据," + request.getRequestURI());
-		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(1);
 
 		try {
 			// 验证非空
@@ -540,86 +433,10 @@ public class EnclosureController {
 			}
 
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
 			josn.msg = e.getMessage();
 			josn.state = 500;
 		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
-		return josn;
-	}
-
-	/**
-	 * 
-	 * 保存附件信息
-	 * 
-	 * @author lingfe
-	 * @created 2019年3月26日 上午10:00:42
-	 * @param tab
-	 * @param request
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = "/save", method = { RequestMethod.POST, RequestMethod.GET })
-	@ResponseBody
-	public JosnModel<Object> save(Tab_enclosure tab, HttpServletRequest request, HttpSession session) {
-		// 实例化对象
-		JosnModel<Object> josn = new JosnModel<Object>();
-		Tab_system_log sysLog = new Tab_system_log();
-
-		// 系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("保存附件信息," + request.getRequestURI());
-		Object creator = session.getAttribute("userid");
-		if (!StringUtils.isEmpty(creator)) {
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(4);
-
-		try {
-			// 验证非空
-			if (tab != null) {
-				if (tab.getSet_id() != null && !"".equals(tab.getSet_id())) {
-
-					if (tab.getEnclosure_name() != null && !"".equals(tab.getEnclosure_name())) {
-						// 赋值
-						tab.setId(UUID.randomUUID().toString().replace("-", ""));
-						tab.setCreator(sysLog.getCreator());
-						tab.setModify(tab.getCreator());
-
-						// 执行保存
-						int tt = ienclosuresService.save(tab);
-						if (tt >= 1) {
-							josn.msg = "保存成功!";
-							josn.state = 200;
-							josn.data = tab;
-						} else {
-							josn.msg = "保存失败!";
-						}
-					} else {
-						josn.msg = "附件名称不能为空!";
-					}
-				} else {
-					josn.msg = "setid不能为空!";
-				}
-			} else {
-				josn.msg = "请填写附件信息!";
-			}
-
-		} catch (Exception e) {
-			sysLog.setIs_bug(1);
-			josn.msg = e.getMessage();
-			josn.state = 500;
-		}
-		// 操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		// 添加系统日志
-		isystem_logService.add(sysLog);
-
+		
 		return josn;
 	}
 

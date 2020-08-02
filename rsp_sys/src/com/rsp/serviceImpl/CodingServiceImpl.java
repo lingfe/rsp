@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.rsp.mapper.IcodingMapper;
 import com.rsp.model.Tab_coding;
-import com.rsp.service.IcodingService;
+import com.rsp.service.Isys_codingService;
 
 /**
  * 
@@ -19,7 +19,7 @@ import com.rsp.service.IcodingService;
   * 修改内容：
  */
 @Service
-public class CodingServiceImpl implements IcodingService {
+public class CodingServiceImpl implements Isys_codingService {
 
 	//自动装配
 	@Autowired
@@ -31,8 +31,8 @@ public class CodingServiceImpl implements IcodingService {
 	}
 	
 	@Override
-	public int getCount() {
-		return icodingMapper.getCount();
+	public int getCount(Map<String, Object> map) {
+		return icodingMapper.getCount(map);
 	}
 	
 	@Override
@@ -60,5 +60,18 @@ public class CodingServiceImpl implements IcodingService {
 		return icodingMapper.getWhereCodingName(coding_name);
 	}
 	
-		
+	@Override
+	public Tab_coding getOne_asc() {
+		return icodingMapper.getOne_asc();
+	}
+	
+	@Override
+	public Tab_coding getOne_desc() {
+		return icodingMapper.getOne_desc();
+	}
+
+	@Override
+	public List<Tab_coding> getWhere(Map<String, Object> map) {
+		return icodingMapper.getWhere(map);
+	}
 }

@@ -22,11 +22,10 @@ public class Tab_user_info {
 	 */
 	public Tab_user_info(){
 		this.setId(UUID.randomUUID().toString());
-		this.setCreator(getId());
-		this.setModify(getId());
 	}
 	
 	private String id;//  `id` VARCHAR(64) NOT NULL COMMENT '用户信息表id标识',
+	private String hospital_id;//医院id
 	private String username;//	  `username` VARCHAR(64) DEFAULT NULL COMMENT '用户名称',
 	private String  realname;//	  `realname` VARCHAR(64) DEFAULT NULL COMMENT '真实姓名',
 	private String avatar;//	  `avatar` VARCHAR(255) DEFAULT NULL COMMENT '头像',
@@ -68,6 +67,12 @@ public class Tab_user_info {
 	
 	
 	
+	public String getHospital_id() {
+		return hospital_id;
+	}
+	public void setHospital_id(String hospital_id) {
+		this.hospital_id = hospital_id;
+	}
 	public String getOpenid() {
 		return openid;
 	}

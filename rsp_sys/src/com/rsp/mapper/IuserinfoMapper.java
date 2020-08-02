@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.UpdateProvider;
-import org.junit.runners.Parameterized.Parameters;
 
 import com.rsp.inter.Iuserinfo;
 import com.rsp.mapperProvider.IuserinfoMapperProvider;
@@ -37,12 +36,12 @@ public interface IuserinfoMapper extends Iuserinfo {
 	
 	//保存用户信息
 	@Insert("INSERT  INTO user_info "
-			+ "(`id`,openid,`username`,`realname`,`avatar`,`relo`,"
+			+ "(`id`,hospital_id,openid,`username`,`realname`,`avatar`,`relo`,"
 			+ "`pwd`,`tel`,`email`,`mobile`,`qq`,`balance`,`lastTime`,`state`,`idCard`,`provinceCode`,`provinceName`,"
 			+ "`cityCode`,`cityName`,`regionCode`,`regionName`,`address`,`remark`,"
 			+ "`cdate`,`mdate`,`creator`,`modify`,`version`) "
 			+ " VALUES  "
-			+ "(#{id},#{openid},#{username},#{realname},#{avatar},#{relo},"
+			+ "(#{id},#{hospital_id},#{openid},#{username},#{realname},#{avatar},#{relo},"
 			+ "#{pwd},#{tel},#{email},#{mobile},#{qq},#{balance},#{lastTime},#{state},#{idCard},#{provinceCode},#{provinceName},"
 			+ "#{cityCode},#{cityName},#{regionCode},#{regionName},#{address},#{remark},"
 			+ "#{cdate},#{mdate},#{creator},#{modify},#{version})")

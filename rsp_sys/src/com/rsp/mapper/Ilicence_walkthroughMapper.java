@@ -29,34 +29,36 @@ public interface Ilicence_walkthroughMapper extends Ilicence_walkthrough {
 	List<Tab_licence_walkthrough> pageSelect(Map<String, Object> map);
 	
 	@Insert("INSERT  INTO `licence_walkthrough`"
-			+ "(`id`,`hospital_name`,`prearranged_type`,"
+			+ "(`id`,hospital_id,`hospital_name`,`prearranged_type`,"
 			+ "`licence_type`,`certificates_number`,`organization_name`,"
 			+ "`legal_person_charge`,`address`,`remark`,"
 			+ "`is_annual_inspection`,`is_annual_assessment`,`is_licence_continue`,"
 			+ "`inspection_date`,`inspection_cycle`,`assessment_date`,"
 			+ "`assessment_cycle`,`valid_certificate`,`certification_authority`,"
 			+ "`issuing_date`,"
-			+ "`state`,`cdate`,`mdate`,`creator`,`modify`,`version`) "
+			+ "`state`,`crt_code`,crt_name,crt_date,"
+			+ "`modify_code`,`modify_name`,`modify_date`,`version`) "
 			+ "VALUES "
-			+ "(#{id},#{hospital_name},#{prearranged_type},"
+			+ "(#{id},#{hospital_id},#{hospital_name},#{prearranged_type},"
 			+ "#{licence_type},#{certificates_number},#{organization_name},"
 			+ "#{legal_person_charge},#{address},#{remark},"
 			+ "#{is_annual_inspection},#{is_annual_assessment},#{is_licence_continue},"
 			+ "#{inspection_date},#{inspection_cycle},#{assessment_date},"
 			+ "#{assessment_cycle},#{valid_certificate},#{certification_authority},"
 			+ "#{issuing_date},"
-			+ "#{state},#{cdate},#{mdate},#{creator},#{modify},#{version})")
+			+ "#{state},#{crt_code},#{crt_name},#{crt_date},"
+			+ "#{modify_code},#{modify_name},#{modify_date},#{version})")
 	int save(Tab_licence_walkthrough tab);
 	
 	@Update("update licence_walkthrough set "
-			+ "hospital_name=#{hospital_name},prearranged_type=#{prearranged_type},"
+			+ "hospital_id=#{hospital_id},hospital_name=#{hospital_name},prearranged_type=#{prearranged_type},"
 			+ "licence_type=#{licence_type},certificates_number=#{certificates_number},organization_name=#{organization_name},"
 			+ "legal_person_charge=#{legal_person_charge},address=#{address},remark=#{remark},"
 			+ "is_annual_inspection=#{is_annual_inspection},is_annual_assessment=#{is_annual_assessment},is_licence_continue=#{is_licence_continue},"
 			+ "inspection_date=#{inspection_date},inspection_cycle=#{inspection_cycle},assessment_date=#{assessment_date},"
 			+ "assessment_cycle=#{assessment_cycle},valid_certificate=#{valid_certificate},certification_authority=#{certification_authority},"
 			+ "issuing_date=#{issuing_date},"
-			+ "state=#{state},mdate=#{mdate},modify=#{modify},version=#{version} "
+			+ "state=#{state},modify_code=#{modify_code},modify_name=#{modify_name},modify_date=#{modify_name},version=#{version} "
 			+ "where id=#{id}")
 	int update(Tab_licence_walkthrough tab);
 

@@ -1,0 +1,679 @@
+
+zpkj_yxjhkj_cwz 驻派空间 耀协交换空间 财务章   lihong  asdf738657
+
+tfs  工具，团队
+
+toolsFixed(
+
+18696666892 
+
+13245678902
+
+http://120.78.129.5:10001/index.html
+
+https://www.eolinker.com/#/share/index?shareCode=7UnJsI
+
+120.78.129.5 Cqxinxikeji-syens.  http://xsd.xinxikeji.net/login.html
+
+
+小水滴：78537773@qq.com    123456   帐号密码
+
+
+瑞达新项目：468078659@qq.com  123456
+
+http://192.168.31.254:8888/Swagger/ui/index 接口位置。
+
+远程 120.76.112.231   administrator  Cqxinxikeji-syens 网络download 浏览，对应添加android ios 文件。
+热更新版本增加   数据同步   ，版本号修改。
+
+http://112.74.129.195:90/pages/p01.aspx  版本管理控制。
+
+分包预算
+
+toolsUploadFile  tools.js  toolsRefreshAddImagesContainer  tools3.js
+
+上传图片电脑测试app的操作说明  控制台添加imgTest=true;或者在tools.js中奖imgTest的值改为true;
+
+app测试   00000   王胖有  1234      切换公司代码  尚志 77777   88889   王东 10000  10086   
+
+tfs   vs 新页面，工具 选项 源代码管理 tfs  配置过后，右侧 源代码管理器 左侧，获取最新版本 复制，粘贴，取消掉只读属性
+
+http://localhost:4486/Atm?fjms_flag=mtcheck&gylconnet=1&GylParam={"user_id":"201506272304172015062723031415189004604","dhd_rguid":"20190108142843201901081004302448928022135"}
+
+pc公章申请流程测试   open('{ "xmid": "CQ_NA_0001", "mk_code": "20030", "fjyw_id":"", "khid": "2B公司", "user_id": "2015090516342520150905161742080130287165", "user_name": "王胖有", "file_path": "pic_server/zs_glxt_jhkjys_fjxx", "slt_path": "thumbs", "qx_flag": "2", "del_flag": "1", "fjms_flag": "3", "fjlb_id": "1", "fjlb_name": "陈贞", "zxfg": "", "zxbw": "", "fxjg": "","kh_rguid":"201705191002082800000571","flag":"10" ,"gs_rguid":"201409291736002014092917112501662067943","dj_rguid":"" }');
+
+pc合同页面 atm  103	open('{ "xmid": "CQ_NA_0001", "mk_code": "20030", "fjyw_id":"", "khid": "201506041040302015060410372615419296622", "user_id": "2015090516342520150905161742080130287165", "user_name": "王胖有", "file_path": "pic_server/zs_glxt_jhkjys_fjxx", "slt_path": "thumbs", "qx_flag": "2", "del_flag": "1", "fjms_flag": "3", "fjlb_id": "1", "fjlb_name": "陈贞", "zxfg": "", "zxbw": "", "fxjg": "","khid":"2017043009543820170430095204014622780114" }');
+
+pc测试21测试 open('{ "xmid": "CQ_NA_0001", "mk_code": "20030", "fjyw_id":"", "khid": "201506041040302015060410372615419296622", "user_id": "2015090516342520150905161742080130287165", "user_name": "王胖有", "file_path": "pic_server/zs_glxt_jhkjys_fjxx", "slt_path": "thumbs", "qx_flag": "2", "del_flag": "1", "fjms_flag": "3", "fjlb_id": "1", "fjlb_name": "陈贞", "zxfg": "", "zxbw": "", "fxjg": "" }');
+
+pc d0201 投诉反馈报修详情 open('{ "xmid": "CQ_NA_0001", "mk_code": "20030", "fjyw_id":"pc_atm_201805031406344100000194", "khid": "2B公司", "user_id": "2015090516342520150905161742080130287165", "user_name": "王胖有", "file_path": "pic_server/zs_glxt_jhkjys_fjxx", "slt_path": "thumbs", "qx_flag": "2", "del_flag": "1", "fjms_flag": "3", "fjlb_id": "1", "fjlb_name": "陈贞", "zxfg": "", "zxbw": "", "fxjg": "","kh_rguid":"201705191002082800000571","flag":"10" ,"gs_rguid":"201409291736002014092917112501662067943","dj_rguid":"" }');
+fjlb_id：2 报修
+open({'user_id':'2015090516342520150905161742080130287165','fjyw_id':'pc_atm_201805231418177100000194','user_name':'王胖有','fjlb_id':'1','qx_flag':2});
+
+pc  102   open({fjms_flag:0,qx_flag:2,khid:'2018101915252320181019093025186761245974',kh_name:'萧炎',kh_address:'渝北\长安锦绣城\渝北区长安锦绣城10-7-8',user_id:'2014093009424520140930092500246131314222',user_name:'周云'});
+pc d0116 open({qx_flag:2,khid:'2018101314393820181013133231304540153116',kh_name:'萧炎',kh_address:'渝北\长安锦绣城\渝北区长安锦绣城10-7-8',user_id:'2014093009424520140930092500246131314222',user_name:'周云'});
+
+pc d0202 新增投诉反馈报修  open('{ "xmid": "CQ_NA_0001", "mk_code": "20030", "fjyw_id": "2015031610532520150316094457288512987422", "khid": "2016031715564720160317154916221091570210", "user_id": "2014093010134720140930092500131820082043", "user_name": "范兵", "file_path": "pic_server/zs_glxt_jhkjys_fjxx", "slt_path": "thumbs", "qx_flag": "2", "del_flag": "2", "fjms_flag": "3", "fjlb_id": "0051", "fjlb_name": "陈贞", "zxfg": "", "zxbw": "", "fxjg": "" }');
+
+open({'user_id':'2015090516342520150905161742080130287165','khid':'201708311122282017083111221426636224773','user_name':'王胖有','fjlb_id':'1'});
+
+pc d0704 财务报销详情 d0704setData("pc_atm_201804031727163000002752",{"user_id":"2015090516342520150905161742080130287165","user_name":"王胖友"},true,false);
+
+PC d0701  新增财务报销  d0701SetData({
+            TabInitData: {
+                bj1: '1',
+                bj2: '1',
+                bj3: '1',
+                bj4: '1'
+            },
+            "user_id": "2015090516342520150905161742080130287165",
+            "user_name": "王胖有"
+        }, //paramData {TabInitData:{鬼知道里面有啥……},user_id ,user_name}
+        4, //选择的申请类别0-借款1 - 报销 2 - 冲账 3-退定金 4-退工程款
+        1, //模式 0 为新增 1 查看
+        'pc_atm_201804031727163000002752')//单据的ID？查看详情时才有？
+
+重改财务报销
+
+pc d0707 d0707SetData({user_id:'2015090516342520150905161742080130287165',user_name:'王胖有'},{rguid:'001',name:'借款'},0,'借款');
+
+84  83
+
+ open('{ "xmid": "CQ_NA_0001", "mk_code": "10040", "fjyw_id": "", "khid": "", "user_id": "2015090516342520150905161742080130287165", "user_name": "王胖有", "file_path": "/pic_server/zs_glxt_jhkjys_fjxx", "slt_path": "thumbs", "qx_flag": "2", "del_flag": "1", "fjms_flag": "1", "fjlb_id": "0051", "fjlb_name": "", "zxfg": "", "zxbw": "", "fxjg": "" }');
+
+
+封装测试
+toolsTurnPage('t128page',function(){__.iscroll.initIScroll($('#t128UlList'))}) 
+toolsTurnPage('t85page',function(){__.iscroll.initIScroll($('#t85UlList'))})
+toolsTurnPage('t85page')
+t85PageInit('p02page',false);
+toolsTurnPage('t128page')
+t128PageInit(0,100);
+
+//固定选项的select
+{array:[{ "text": "投诉", "value": "1" ,"sj_name":"你老家"}, { "text": "反馈", "value": "3","sj_name":"他的家" }],
+selectValue:'3',
+towValue:1,
+temp:'<div class="mui-input-row mui-radio"><label>{text}</label><input name="radio1" type="radio"></div>',
+selectedTemp:'<div class="mui-input-row mui-radio"><label>{text}</label><input name="radio1" type="radio" checked></div>',
+change:[{value:'text',to:'text'}],
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}}
+
+__.select.initSelect({array:[{ "text": "投诉", "value": "1" ,"sj_name":"你老家"}, { "text": "反馈", "value": "3","sj_name":"他的家" }],
+selectValue:'3',
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}})
+__.select.initSelect({array:[{ "text": "投诉", "value": "1" ,"sj_name":"你老家"}, { "text": "反馈", "value": "3","sj_name":"他的家" }],
+selectValue:'3',
+towValue:1,
+temp:'<div class="mui-input-row mui-radio"><label>{text}</label><input name="radio1" type="radio"></div>',
+selectedTemp:'<div class="mui-input-row mui-radio"><label>{text}</label><input name="radio1" type="radio" checked></div>',
+change:[{value:'text',to:'text'}],
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}})
+
+//多选
+__.select.initSelect({array:[{ "text": "投诉", "value": "1" ,"sj_name":"你老家"}, { "text": "反馈", "value": "3","sj_name":"他的家" }],
+selectValue:['3'],multiple:1,
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}})
+
+//下拉刷新的select
+{selectValue:'',
+type:1,
+temp:'<div class="mui-input-row mui-radio" tagpage="{page}"><label>{text}</label><input name="radio1" type="radio"></div>',
+selectedTemp:'<div class="mui-input-row mui-radio" tagpage="{page}"><label>{text}</label><input name="radio1" type="radio" checked></div>',
+change:[{value:'text',to:'bxkh_name'}],
+loadParam:{
+  url:'ashx/Ashx_FinancialReimbursement.ashx',
+  datapost:{
+    action:'SearchExpenseBorrowAuditBill',
+    startDate:'',
+    userID:appUserID,
+    as_bmrguid:'',
+    pageIndex:1,
+    pageSize:10,
+    imgServer:'http://app.xinxikeji.net:70/',
+    endDate:'2018-05-08',
+    tjxx:'',
+    flag:0
+  }
+},
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}}
+
+__.select.initSelect({selectValue:'',
+type:1,
+temp:'<div class="mui-input-row mui-radio" tagpage="{page}"><label>{text}</label><input name="radio1" type="radio"></div>',
+selectedTemp:'<div class="mui-input-row mui-radio" tagpage="{page}"><label>{text}</label><input name="radio1" type="radio" checked></div>',
+change:[{value:'text',to:'bxkh_name'}],
+loadParam:{
+  url:'ashx/Ashx_FinancialReimbursement.ashx',
+  datapost:{
+    action:'SearchExpenseBorrowAuditBill',
+    startDate:'',
+    userID:appUserID,
+    as_bmrguid:'',
+    pageIndex:1,
+    pageSize:20,
+    imgServer:'http://app.xinxikeji.net:70/',
+    endDate:'2018-05-08',
+    tjxx:'',
+    flag:0
+  }
+},
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}})
+
+//多选
+__.select.initSelect({selectValue:'',
+type:1,
+temp:'<div class="mui-input-row mui-checkbox mui-radio" tagpage="{page}"><label>{text}</label><input name="checkbox1" type="checkbox" style="top:16px"></div>',
+selectedTemp:'<div class="mui-input-row mui-checkbox mui-radio" tagpage="{page}"><label>{text}</label><input name="chekbox1" type="checkbox" checked style="top:16px;"></div>',
+change:[{value:'text',to:'bxkh_name'}],
+loadParam:{
+  url:'ashx/Ashx_FinancialReimbursement.ashx',
+  datapost:{
+    action:'SearchExpenseBorrowAuditBill',
+    startDate:'',
+    userID:appUserID,
+    as_bmrguid:'',
+    pageIndex:1,
+    pageSize:20,
+    imgServer:'http://app.xinxikeji.net:70/',
+    endDate:'2018-05-08',
+    tjxx:'',
+    flag:0
+  }
+},multiple:1,
+backPage:'p02page',
+callback:function(backdata){
+    console.log(backdata);
+
+}})
+
+
+$.ajax({
+                    url: "../ashx/Ashx_Mine.ashx", data: {
+                        action: "Tskhadd",
+                        tsfk: JSON.stringify({ khts_flag: p300type ? 2 : 1, kh_rguid: p401CustomerID, tsnr: tsnr, create_code: wcUserID, create_name: wcUserName }),
+                        uploadImages: JSON.stringify(uploadIDs),
+                    },
+                    success: function (data) {
+                        if (!data.Success) {
+                            toolsErrorMsg("保存失败" + data.ErrorMessage);
+                            toolsHideLoading();
+                            p401Count = 0;
+                            p401LoadCount = 0;
+                            return;
+                        }
+                        toolsShowTips("保存成功");
+                        toolsHideLoading();
+                        toolsBack();
+                    },
+                    error: function (data) {
+
+                    },
+                    dataType: "json",
+                    type: 'post'
+                })
+
+标准操作
+var msgId = mini.loading("加载中，请稍候......");
+        $.post('http://rap2api.taobao.org/app/mock/9992/Api/GetCwbxcztXzmrz',
+            {
+                as_ryrguid: d0707Param.user_id,
+                as_sqlbrguid:d0707Type
+            }
+            , function (data) {
+                mini.hideMessageBox(msgId);
+                if (!data.Success) {
+                    toolsShowTips("系统提示", "操作失败" + data.ErrorMessage, "danger", "center", "center");
+                    return;
+                }
+                //todo
+
+
+            },'json');
+
+ $.postOnlineState('http://rap2api.taobao.org/app/mock/9992/Api/GetCwbxcztHqcwbxsqxl',
+            { action: 'GetCwbxcztHqcwbxsqxl' },
+            function (data) {
+                if (!data.Success) {
+                    toolsHideLoading();
+                    toolsShowTips(data.ErrorMessage);
+                    return;
+                }
+            },'json'
+        );
+
+d0707Skr d0707Skyh  d0707Skzh
+
+$('#p160ChangeFlag').prop('checked',false);
+p160SelectCldxGj = [];
+p160SelectClryGj = {};
+
+
+
+<span class="insertpart">*</span>
+
+<span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+
+<div id="p178page" class="mui-views" style="display: block;">
+    <div class="mui-view">
+        <div class="mui-navbar phomebar">
+            <div id="p178NavigationContainer" class="mui-navbar-inner mui-bar mui-bar-nav mui-navbar-center mui-transitioning"><a class="navigationleftbtn mui-left mui-btn mui-btn-link mui-btn-nav mui-pull-left colrfff top_back_font"><img src="images/back.png"></a><h1 class="navigationcenterbtn mui-center mui-title ">新增借款</h1><a class="navigationrightbtn mui-left mui-btn mui-btn-success mui-pull-right p17_top">保存</a></div>
+        </div>
+        <div class="mui-pages phomepages">
+            <div class="mui-page-content bagfff">
+                <div class="mui-page-content bagfff">
+                    <div class="mui-scroll-wrapper" id="p178slidercontainer" data-scroll="4">
+                        <div class="mui-slider" style="transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-duration: 0ms; transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);">
+                            <div class="ty_center" id="p178CenterPart">
+    <div part="A">
+       
+        <div class="ty_client">
+            <div class="ty_ctright">申请类别</div>
+            <div class="ty_ctleft" id="p178Sqlb">借款</div>
+        </div>
+        <div class="ty_client" id="p178SqlxContainer">
+            <div class="ty_ctright">申请类型<span class="insertpart">*</span></div>
+            <div class="ty_ctleft" id="p178Sqlx" rguid="001001">普通借款</div>
+        </div>
+        <div class="ty_client" id="p178LcContainer">
+            <div class="ty_ctright">流程<span class="insertpart">*</span></div>
+            <div class="ty_ctleft" id="p178Lc" lc_rguid="201705191002082800000571">借款流程正式_test</div>
+        </div>
+        <div class="ty_client" id="p178SqrContainer">
+            <div class="ty_ctright">申请人<span class="insertpart">*</span></div>
+            <div class="ty_ctleft" id="p178Sqr" sqr_rguid="2015090516342520150905161742080130287165">重庆信析科技有限公司/工程部/王胖有</div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">创建人</div>
+            <div class="ty_ctleft" id="p178Creator">重庆信析科技有限公司/工程部/王胖有</div>
+        </div>
+        <div class="ty_client detailspart" style="display:none;">
+            <div class="ty_ctright">申请时间</div>
+            <div class="ty_ctleft" id="p178Sqsj">2018/8/7 11:18:25</div>
+        </div>
+        <div class="ty_client detailspart" style="display:none;">
+            <div class="ty_ctright">当前处理时长</div>
+            <div class="ty_ctleft" id="p178Dqclsc"></div>
+        </div>
+        <div class="ty_client detailspart" style="display:none;">
+            <div class="ty_ctright">总处理时长</div>
+            <div class="ty_ctleft" id="p178Zclsc"></div>
+        </div>
+        <div class="ty_client" style="display:none;" id="p178YsContainer">
+            <div class="ty_ctright">原始申请金额</div>
+            <div class="ty_ctleft" id="p178Ys"></div>
+        </div>
+        <div class="ty_client" style="display:none;" id="p178PfContainer">
+            <div class="ty_ctright">批复金额</div>
+            <div class="ty_ctleft" id="p178Pf"></div>
+        </div>
+    </div>
+
+    <div part="B">
+        <div class="ty_client">
+            <div class="ty_ctright">关联客户<span class="insertpart">*</span></div>
+            <div class="ty_ctleft ty_usrecolor" style="margin-right: 33px;" id="p178Glkh">请选择关联客户</div>
+            <div class="nwf_pos" id="p178GlkhCloseArea">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 16px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;border-radius: 15px;" id="p178Addmx">X</span>
+            </div>
+        </div>
+        <div class="ty_client endhide">
+            <div class="ty_ctright">已收工程款</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="
+    text-decoration: underline;
+"><a href="#">160.00</a></span>
+                
+            </div>
+        </div>
+    </div>
+
+    <div part="C" class="endhide">
+        <div class="ty_client">
+            <div class="ty_ctright">定金款总额</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="
+    text-decoration: underline;
+"><a href="#">160.00</a></span>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">审核中定金退款</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="
+    text-decoration: underline;
+"><a href="#">160.00</a></span>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">定金退款金额<span class="insertpart">*</span></div>
+            <div class="ty_ctleft">
+                <input type="number" id="p178Djtkje" placeholder="请输入定金退款金额">
+            </div>
+        </div>
+    </div>
+
+    <div part="D" class="endhide">
+        <div class="ty_client">
+            <div class="ty_ctright">工程款总额</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">审核中工程退款</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">工程退款金额<span class="insertpart">*</span>
+</div>
+            <div class="ty_ctleft">
+                <input type="number" placeholder="请输入工程退款金额" id="p178Gctkje">
+            </div>
+        </div>
+    </div>
+
+    <div part="E">
+        <div class="ty_client">
+            <div class="ty_ctright">关联供应商<span class="insertpart">*</span>
+</div>
+            <div class="ty_ctleft ty_usrecolor" style="margin-right: 35px;" id="p178Glgys">请选择关联供应商</div>
+            <div class="nwf_pos" id="p178GlgysCloseArea">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 16px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;border-radius: 15px;" id="p178Addmx">X</span>
+            </div>
+        </div>
+        <div class="ty_client endhide">
+            <div class="ty_ctright">责任金</div>
+            <div class="ty_ctleft">
+               <span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div part="F" class="endhide">
+        <div class="ty_client">
+            <div class="ty_ctright">责任金</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">剩余未还借款</div>
+            <div class="ty_ctleft">
+                <span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">剩余扣款</div>
+            <div class="ty_ctleft">
+               <span id="p178MoneyGot" style="text-decoration: underline;"><a href="#">160.00</a></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="" part="G">
+        <div class="ty_client">
+            费用明细<span class="insertpart">*</span>
+            <div class="nwf_pos">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 24px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;" id="p178Addmx">+</span>
+            </div>
+        </div>
+        <div class="ty_client" id="p178FylxContainer">
+            <div class="ty_ctright">费用类型<span class="insertpart">*</span></div>
+            <div class="ty_ctleft" id="p178Fylx">请选择费用类型</div>
+        </div>
+<div class="ty_client" id="p178Fymxlist" style="">
+            <div id="p178FymxContainer"><div><div class="ty_ctleft nwf_table"><div class="nwf_close" tagindex="0"><span class="mui-btn mui-new-close">×</span></div><div>费用名称：预算借款</div><div class="inputarea">金额：<span><input class="new_inpt" type="number" value="23.00" tagname="je" tagindex="0" style="text-align:left;border:1px solid rgba(0, 0, 0, .2);"></span></div><div>备注：23</div></div></div></div>
+            <div class="nwf_hj">合计：<span id="p178FymxHj">23.00</span></div>
+        </div>
+        <div class="ty_client" id="p178Fymxlist" style="display:none;">
+            <div id="p178FymxContainer">
+            </div>
+            <div class="nwf_hj">合计：<span id="p178FymxHj">0</span></div>
+        </div>
+    </div>
+
+
+    <div part="H">
+        <div class="ty_client">
+            冲账明细<span class="insertpart">*</span>
+            <div class="nwf_pos">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 24px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;" id="p178Addmx">+</span>
+            </div>
+        </div>
+        <div class="ty_client" id="p178CzmxJkdlist" style="display:none;">
+            <div id="p178CzmxJkdContainer">
+            </div>
+            <div class="nwf_hj">合计：<span id="p178CzmxJkdHj">0</span></div>
+        </div>
+    </div>
+
+
+    <div part="I">
+        <div class="ty_client">
+            扣款明细<span class="insertpart">*</span>
+            <span style="float:right;margin-right:120px;display:none;" class="endhide">
+                待扣金额：<a href="javscript:;" style="text-decoration:underline;">2200.00</a>
+            </span>
+            <div class="nwf_pos">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 24px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;" id="p178Addmx">+</span>
+            </div>
+        </div>
+        <div class="ty_client" id="p178Kkmxlist" style="display:none;">
+            <div id="p178KkmxContainer">
+            </div>
+            <div class="nwf_hj">合计：<span id="p178KkmxHj">0</span></div>
+        </div>
+    </div>
+
+    <div part="J">
+        <div class="ty_client">
+            承担明细<span class="insertpart">*</span>
+            <div class="nwf_pos">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 24px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;" id="p178Addmx">+</span>
+            </div>
+        </div>
+        <div class="ty_client" id="p178CdfsContainer">
+            <div class="ty_ctright">承担方式<span class="insertpart">*</span></div>
+            <div class="ty_ctleft" id="p178Cdfs">请选择承担方式</div>
+        </div>
+        <div class="ty_client" id="p178Cdmxlist" style="display:none;">
+            <div id="p178CdmxContainer">
+            </div>
+        </div>
+        <div class="ty_client" style="margin: 10px;display:none;">
+            <div class="ty_ctleft nwf_table">
+                <div class="nwf_close">
+                    <span class="mui-btn mui-new-close">×</span>
+                </div>
+                <div class="new_float new2w">承担人：addddd</div>
+                <div class="new_float new2w">类型：员工</div>
+                <div class="clear"></div>
+                <div style="margin:10px 0px;">
+                    承担比例：<input type="number" style="border: 1px solid #ddd;" class="new_inpt cwbx_cdrbl" name="" value="40.70">%
+                </div>
+                <div>
+                    承担金额：<input type="number" style="border: 1px solid #ddd;" class="new_inpt cwbx_cdrje" name="" value="0.00">
+                </div>
+                <div>
+                    <span style="float:left;">备注：</span><p style="word-break:break-all;">你是我的我是你的大家都是阿萨德飞机奥斯给大家奥斯的赶脚四斗柜爱神的箭佛寺等级高</p>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div part="K">
+        <div class="ty_client">
+            <div class="ty_ctright">摘要<span class="insertpart">*</span></div>
+            <div class="ty_ctleft">
+                <input type="text" placeholder="请输入摘要" id="p178Zy">
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">收款人<span class="insertpart">*</span></div>
+            <div class="ty_ctleft">
+                <input type="text" placeholder="请输入收款人" id="p178Skr" style="margin-right: 60px;width: auto;">
+                <div class="nwf_pos">
+                    <span id="p178SkrBtn" class="mui-btn mui-btn-success" style="height: 28px; line-height: 14px;">常用</span>
+                </div>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">收款银行<span class="insertpart">*</span></div>
+            <div class="ty_ctleft">
+                <input type="text" placeholder="请输入收款银行" id="p178Skyh" style="margin-right: 60px;width: auto;">
+                <div class="nwf_pos">
+                    <span id="p178SkyhBtn" class="mui-btn mui-btn-success" style="height: 28px; line-height: 14px;">常用</span>
+                </div>
+            </div>
+        </div>
+        <div class="ty_client">
+            <div class="ty_ctright">收款帐号<span class="insertpart">*</span></div>
+            <div class="ty_ctleft">
+                <input type="text" placeholder="请输入收款帐号" id="p178Zh" style="margin-right: 60px;width: auto;">
+                <div class="nwf_pos">
+                    <span id="p178ZhBtn" class="mui-btn mui-btn-success" style="height: 28px; line-height: 14px;">常用</span>
+                </div>
+            </div>
+        </div>
+        <div class="ty_client">
+            <textarea class="ty_textarea" style="height: 200px;" placeholder="请输入说明" id="p178Sm"></textarea>
+        </div>
+    </div>
+
+
+    <div part="L">
+        <div class="ty_client" style="border-bottom:none;">
+            添加图片
+        </div>
+        <div class="ty_client">
+            <div class="row image-list p17_imglist" id="p178container"><div class="p17_addimg"><img src="images/iconfont-tianjia.png"></div></div>
+        </div>
+    </div>
+
+
+    <div part="M" style="display: none;">
+        <div class="new_list" style="border-top: 1px solid #ddd;">
+            审核记录
+        </div>
+        <div class="new_othy">
+            <div class="new_thbade">
+                <div class="new_float new3w">审核人</div>
+                <div class="new_float new3w new_trc">审核时间</div>
+                <div class="new_float new3w new_trt">审核状态</div>
+                <div class="clear"></div>
+            </div>
+            <div id="p178ShContainer">
+               
+            </div>
+        </div>
+    </div>
+
+
+    <div part="N">
+        <div class="ty_client">
+            冲账明细<span class="insertpart">*</span>
+            <div class="nwf_pos">
+                <span class="mui-btn mui-btn-success" style="height: 28px;font-size: 24px;padding: 0;width: 28px;line-height: 28px;background: none;color: #4cd968;" id="p178Addmx">+</span>
+            </div>
+        </div>
+        <div class="ty_client" id="p178CzmxZrjlist" style="display:none;">
+            <div id="p178CzmxZrjContainer">
+            </div>
+            <div class="nwf_hj">合计：<span id="p178CzmxZrjHj">0</span></div>
+        </div>
+    </div>
+</div>
+                        </div>
+                    <div class="mui-scrollbar mui-scrollbar-vertical" style="transition-duration: 500ms; opacity: 0;"><div class="mui-scrollbar-indicator" style="transition-duration: 0ms; display: block; height: 219px; transform: translate3d(0px, 0px, 0px) translateZ(0px); transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);"></div></div></div>
+                </div>
+                <div id="p178newPop" style="display: none">
+                    <div class="mui-popup mui-popup-in" style="display: block;">
+                        <div class="mui-popup-inner">
+                            <div class="ty_client" id="p178FymcContainer">
+                                <div class="ty_ctright">费用名称</div>
+                                <div class="ty_ctleft" id="p178Fymc">请选择费用名称</div>
+                            </div>
+                            <div class="ty_client">
+                                <div class="ty_ctright">金额</div>
+                                <div class="ty_ctleft">
+                                    <input type="number" placeholder="请输金额" id="p178Fyje">
+                                </div>
+                            </div>
+                            <div class="ty_client" style="display:none;">
+                                <div class="ty_ctright">金额(大写)</div>
+                                <div class="ty_ctleft" id="p178JedxJedx">大撒旦撒旦</div>
+                            </div>
+                            <div class="ty_client">
+                                <textarea class="ty_textarea" style="height: 50px;" placeholder="请输入备注" id="p178Fysms"></textarea>
+                            </div>
+                        </div>
+                        <div class="mui-popup-buttons">
+                            <span class="mui-popup-button" id="p178MxSave">是</span>
+                            <span class="mui-popup-button mui-popup-button-bold" id="p178MxClose">否</span>
+                        </div>
+                    </div>
+                    <div class="mui-popup-backdrop mui-active">
+                    </div>
+                </div>
+                <div id="p178PopCdr" style="display: none">
+                    <div class="mui-popup mui-popup-in" style="display: block;">
+                        <div class="mui-popup-inner">
+                            <div class="ty_client" id="p178CdlxContainer">
+                                <div class="ty_ctright">承担类型</div>
+                                <div class="ty_ctleft ty_usrecolor" id="p178Cdlx" rguid="" name="">请选择承担类型</div>
+                            </div>
+                            <div class="ty_client" id="p178CddxContainer">
+                                <div class="ty_ctright">承担对象</div>
+                                <div class="ty_ctleft ty_usrecolor" id="p178Cddx" rguid="" name="">请选择承担对象</div>
+                            </div>
+                            <div class="ty_client">
+                                <div class="ty_ctright">承担金额</div>
+                                <div class="ty_ctleft">
+                                    <input id="p178Cdje" type="number" placeholder="请输入承担金额">
+                                </div>
+                            </div>
+                            <div class="ty_client">
+                                <textarea class="ty_textarea" style="height: 50px;" placeholder="请输入备注" id="p178Cdsm"></textarea>
+                            </div>
+                        </div>
+                        <div class="mui-popup-buttons">
+                            <span class="mui-popup-button" id="p178CdrSave">是</span>
+                            <span class="mui-popup-button mui-popup-button-bold" id="p178CdrClose">否</span>
+                        </div>
+                    </div>
+                    <div class="mui-popup-backdrop mui-active">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

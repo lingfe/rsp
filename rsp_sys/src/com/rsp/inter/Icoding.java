@@ -17,6 +17,34 @@ public interface Icoding {
 	
 	/**
 	 * 
+	 * 根据条件查询编码信息
+	 * @author lingfe     
+	 * @created 2019年4月11日 上午11:06:08  
+	 * @param map
+	 * @return
+	 */
+	List<Tab_coding> getWhere(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * 通过升序获取第一条数据
+	 * @author lingfe     
+	 * @created 2019年4月2日 下午2:12:44  
+	 * @return
+	 */
+	Tab_coding getOne_asc();
+	
+	/**
+	 * 
+	 * 通过降序获取第一条数据
+	 * @author lingfe     
+	 * @created 2019年4月2日 下午2:11:34  
+	 * @return
+	 */
+	Tab_coding getOne_desc();
+	
+	/**
+	 * 
 	 * 根据编码名称查询编码信息
 	 * @author lingfe     
 	 * @created 2019年3月28日 下午4:48:39  
@@ -42,7 +70,7 @@ public interface Icoding {
 	 * @created 2019年3月20日 上午9:58:01  
 	 * @return
 	 */
-	int getCount();
+	int getCount(Map<String, Object> map);
 	
 	/**
 	 * 

@@ -16,6 +16,9 @@ import com.rsp.model.Tab_equipment_walkthrough;
 
 public interface Iequipment_walkthroughMapper extends Iequipment_walkthrough {
 
+	@SelectProvider(type=PublicMapperProvider.class,method="getWhere")
+	List<Tab_equipment_walkthrough> getWhere(Map<String, Object> map);
+	
 	@Delete("delete from equipment_walkthrough where id=#{id}")
 	int deleteWhereId(@Param("id")String id);
 	
@@ -30,41 +33,22 @@ public interface Iequipment_walkthroughMapper extends Iequipment_walkthrough {
 	
 	@Insert("INSERT  INTO `equipment_walkthrough`"
 			+ "(`id`,"
-			+ "infirmary_name,"
-			+ "`equipment_name`,`specification_type`,"
-			+ "`device_class`,`equipment_number`,`manfacturer_id`,"
-			+ "`rated_voltage_kv`,`rated_current_ma`,`rated_power_w`,"
-			+ "`equipment_nameplate_photo`,`department`,`purpose`,"
-			+ "`location`,`is_obtain_rdtl`,`obtain_rdtl_date`,"
-			+ "`is_obtain_rsl`,`obtain_rsl_date`,`is_obtain_lcl`,"
-			+ "`obtain_lcl_date`,`source`,`installation_date`,"
-			+ "`whereabouts`,is_scrap,`scrap_date`,"
-			+ "`state`,`cdate`,`mdate`,`creator`,`modify`,`version`) "
+			+ "equipment_id,"
+			+ "is_walkthrough,walkthrough_name,walkthrough_cycle,next_time,"
+			+ "`state`,`crt_code`,crt_name,crt_date,"
+			+ "`modify_code`,`modify_name`,`modify_date`,`version`) "
 			+ "VALUES "
 			+ "(#{id},"
-			+ "#{infirmary_name},"
-			+ "#{equipment_name},#{specification_type},"
-			+ "#{device_class},#{equipment_number},#{manfacturer_id},"
-			+ "#{rated_voltage_kv},#{rated_current_ma},#{rated_power_w},"
-			+ "#{equipment_nameplate_photo},#{department},#{purpose},"
-			+ "#{location},#{is_obtain_rdtl},#{obtain_rdtl_date},"
-			+ "#{is_obtain_rsl},#{obtain_rsl_date},#{is_obtain_lcl},"
-			+ "#{obtain_lcl_date},#{source},#{installation_date},"
-			+ "#{whereabouts},#{is_scrap},#{scrap_date},"
-			+ "#{state},#{cdate},#{mdate},#{creator},#{modify},#{version})")
+			+ "#{equipment_id},"
+			+ "#{is_walkthrough},#{walkthrough_name},#{walkthrough_cycle},#{next_time},"
+			+ "#{state},#{crt_code},#{crt_name},#{crt_date},"
+			+ "#{modify_code},#{modify_name},#{modify_date},#{version})")
 	int save(Tab_equipment_walkthrough tab);
 	
 	@Update("update equipment_walkthrough set "
-			+ "infirmary_name=#{infirmary_name},"
-			+ "equipment_name=#{equipment_name},specification_type=#{specification_type},"
-			+ "device_class=#{device_class},equipment_number=#{equipment_number},manfacturer_id=#{manfacturer_id},"
-			+ "rated_voltage_kv=#{rated_voltage_kv},rated_current_mA=#{rated_current_ma},rated_power_w=#{rated_power_w},"
-			+ "equipment_nameplate_photo=#{equipment_nameplate_photo},department=#{department},purpose=#{purpose},"
-			+ "location=#{location},is_obtain_rdtl=#{is_obtain_rdtl},obtain_rdtl_date=#{obtain_rdtl_date},"
-			+ "is_obtain_rsl=#{is_obtain_rsl},obtain_rsl_date=#{obtain_rsl_date},is_obtain_lcl=#{is_obtain_lcl},"
-			+ "obtain_lcl_date=#{obtain_lcl_date},source=#{source},installation_date=#{installation_date},"
-			+ "whereabouts=#{whereabouts},is_scrap=#{is_scrap},scrap_date=#{scrap_date},"
-			+ "state=#{state},mdate=#{mdate},modify=#{modify},version=#{version} "
+			+ "equipment_id=#{equipment_id},"
+			+ "is_walkthrough=#{is_walkthrough},walkthrough_name=#{walkthrough_name},walkthrough_cycle=#{walkthrough_cycle},next_time=#{next_time},"
+			+ "state=#{state},modify_code=#{modify_code},modify_name=#{modify_name},modify_date=#{modify_name},version=#{version} "
 			+ "where id=#{id}")
 	int update(Tab_equipment_walkthrough tab);
 }

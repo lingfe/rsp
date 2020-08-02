@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -16,15 +17,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.rsp.controller.util.GetIpUtil;
+import com.rsp.controller.util.SYS_GET;
 import com.rsp.model.JosnModel;
 import com.rsp.model.PageModel;
 import com.rsp.model.Tab_equipment_walkthrough;
-import com.rsp.model.Tab_manufacturer;
 import com.rsp.model.Tab_system_log;
 import com.rsp.model.Tab_user_info;
 import com.rsp.service.Iequipment_walkthroughService;
-import com.rsp.service.Isystem_logService;
+import com.rsp.service.Isys_system_logService;
 import com.rsp.service.IuserinfoService;
 
 /**
@@ -46,12 +49,86 @@ public class Equipment_walkthroughController {
 	
 	//系统日志
 	@Autowired
-	private Isystem_logService isystem_logService;
+	private Isys_system_logService isys_system_logService;
 	
 	//用户信息
 	@Autowired
 	private IuserinfoService iuserinfoService;
 	
+	/**
+	 * 
+	 * 修改多条设备预排信息(list多条数据保存)
+	 * @author lingfe     
+	 * @created 2019年3月26日 下午3:29:01  
+	 * @param tab_list
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/update_list", method = { RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public JosnModel<Object> update_list(
+				@RequestParam(value="tab_list",required=false) String tab_list,
+	    		HttpServletRequest request,
+	    		HttpSession session){
+			//实例化对象
+			JosnModel<Object> josn=new JosnModel<Object>();
+			//得到userId
+			Object creator=session.getAttribute("userid");
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(StringUtils.isEmpty(creator)){
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
+			}else{
+				creator=GetIpUtil.getIpAddr(request);
+			}
+			
+			try {
+				// 验证非空
+				if(tab_list!=null&&!"".equals(tab_list)){
+					//得到预排json数据
+					JSONObject jsonObj=JSONObject.parseObject(tab_list);
+					//取出eq_list对应的值,值为字符串
+					String str = jsonObj.getString("tab_list"); 
+			        //使用JSONArray.parseArray(String, Class<T>)将字符串转为指定对象集合
+			        List<Tab_equipment_walkthrough> listPram = (List<Tab_equipment_walkthrough>) JSONArray.parseArray(str, Tab_equipment_walkthrough.class);
+			        for (Tab_equipment_walkthrough tab : listPram) {
+			        	//执行查询
+						Tab_equipment_walkthrough gh=iequipment_walkthroughService.getWhereId(tab.getId());
+						if(gh!=null){
+							//更新值
+							tab.setCrt_date(gh.getCrt_date());
+							tab.setCrt_code(gh.getCrt_code());
+							tab.setModify_date(new Date());
+							tab.setModify_code(null);
+							tab.setVersion(String.valueOf(Integer.parseInt(gh.getVersion())+1));
+							
+							//执行修改
+							int tt=iequipment_walkthroughService.update(tab);
+							if(tt>=1){
+								josn.msg="修改成功!";
+								josn.state=200;
+								josn.data=tab;
+							}else{
+								josn.msg="修改失败!";
+							}
+						}else{
+							josn.msg="请输入正确的id，该id无效!";
+							josn.data=tab.getId();
+							return josn;
+						}
+			        }
+				}else{
+					josn.msg="请填写设备预排信息!";
+				}
+			} catch (Exception e) {
+				josn.msg=e.getMessage();
+				josn.state=500;
+			}
+			
+			return josn;
+		}
 	
 
 	/**
@@ -76,10 +153,15 @@ public class Equipment_walkthroughController {
 			
 			//系统日志
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
-			sysLog.setModel_name("修改编码信息,"+request.getRequestURI());
+			sysLog.setModel_name("修改设备预排信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(2);
@@ -91,10 +173,10 @@ public class Equipment_walkthroughController {
 					Tab_equipment_walkthrough gh=iequipment_walkthroughService.getWhereId(tab.getId());
 					if(gh!=null){
 						//更新值
-						tab.setCdate(gh.getCdate());
-						tab.setMdate(new Date());
-						tab.setCreator(gh.getCreator());
-						tab.setModify(sysLog.getCreator());
+						tab.setCrt_date(gh.getCrt_date());
+						tab.setCrt_code(gh.getCrt_code());
+						tab.setModify_date(new Date());
+						tab.setModify_code(sysLog.getCreator());
 						tab.setVersion(String.valueOf(Integer.parseInt(gh.getVersion())+1));
 						
 						//执行修改
@@ -120,7 +202,7 @@ public class Equipment_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -149,8 +231,13 @@ public class Equipment_walkthroughController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("根据id标识删除信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(3);
@@ -184,7 +271,7 @@ public class Equipment_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -211,13 +298,7 @@ public class Equipment_walkthroughController {
 	public JosnModel<Object> pageSelect(
 			@RequestParam(value="pageIndex",required=false,defaultValue="1")Integer pageIndex,
 			@RequestParam(value="pageNum",required=false,defaultValue="10")Integer pageNum,
-			@RequestParam(value="infirmary_name",required=false)String infirmary_name,
-			@RequestParam(value="department",required=false)String department,
-			@RequestParam(value="is_obtain_rdtl",required=false)Integer is_obtain_rdtl,
-			@RequestParam(value="is_obtain_rsl",required=false)String is_obtain_rsl,
-			@RequestParam(value="is_obtain_lcl",required=false)Integer is_obtain_lcl,
-			@RequestParam(value="is_scrap",required=false)Integer is_scrap,
-	    		HttpServletRequest request,
+			HttpServletRequest request,
 	    		HttpSession session){
 			//实例化对象
 			JosnModel<Object> josn=new JosnModel<Object>();
@@ -238,25 +319,6 @@ public class Equipment_walkthroughController {
 			try {
 				
 				//验证非空
-				if(infirmary_name!=null&&!"".equals(infirmary_name)){
-					map.put("infirmary_name", infirmary_name);
-				}
-				if(department!=null&&!"".equals(department)){
-					map.put("department", department);
-				}
-				if(is_obtain_rdtl!=null&&!"".equals(is_obtain_rdtl));{
-					map.put("is_obtain_rdtl", is_obtain_rdtl);
-				}
-				if(is_obtain_rsl!=null&&!"".equals(is_obtain_rsl)){
-					map.put("is_obtain_rsl", is_obtain_rsl);
-				}
-				if(is_obtain_lcl!=null&&!"".equals(is_obtain_lcl)){
-					map.put("is_obtain_lcl", is_obtain_lcl);
-				}
-				if(is_scrap!=null&&!"".equals(is_scrap));{
-					map.put("is_scrap", is_scrap);
-				}
-				
 				map.put("pageIndex", pageIndex);
 				map.put("pageNum",pageNum);
 				page.setPageIndex(pageIndex);
@@ -275,11 +337,11 @@ public class Equipment_walkthroughController {
 				if(list!=null){
 					for (Tab_equipment_walkthrough tab : list) {
 						//得到创建人名称
-						if(!StringUtils.isEmpty(tab.getCreator())){
-							if(!"游客".equals(tab.getCreator())){
-								Tab_user_info info=iuserinfoService.getWhereId(tab.getCreator());
+						if(!StringUtils.isEmpty(tab.getCrt_code())){
+							if(!"游客".equals(tab.getCrt_code())){
+								Tab_user_info info=iuserinfoService.getWhereId(tab.getCrt_code());
 								if(info!=null){
-									tab.creator_name=info.getUsername();
+									tab.setCrt_name(info.getUsername());
 								}
 							}
 						}
@@ -301,7 +363,7 @@ public class Equipment_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -354,10 +416,83 @@ public class Equipment_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
+	
+	/**
+	 * 
+	 * 保存多条设备预排信息(list多条数据保存)
+	 * @author lingfe     
+	 * @created 2019年3月26日 下午3:29:01  
+	 * @param tab_list
+	 * @param request
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping(value = "/save_list", method = { RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public JosnModel<Object> save_list(
+				@RequestParam(value="tab_list",required=false) String tab_list,
+	    		HttpServletRequest request,
+	    		HttpSession session){
+			//实例化对象
+			JosnModel<Object> josn=new JosnModel<Object>();
+			Tab_system_log sysLog=new Tab_system_log();
+			
+			//系统日志
+			sysLog.setIp(GetIpUtil.getIpAddr(request));
+			sysLog.setModel_name("保存设备预排信息,"+request.getRequestURI());
+			Object creator=session.getAttribute("userid");
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
+			}
+			sysLog.setModify(sysLog.getCreator());
+			sysLog.setOperation_type(4);
+			
+			try {
+				//验证非空
+				// 验证非空
+				if(tab_list!=null&&!"".equals(tab_list)){
+					//得到预排json数据
+					JSONObject jsonObj=JSONObject.parseObject(tab_list);
+					//取出eq_list对应的值,值为字符串
+					String str = jsonObj.getString("tab_list"); 
+			        //使用JSONArray.parseArray(String, Class<T>)将字符串转为指定对象集合
+			        List<Tab_equipment_walkthrough> listPram = (List<Tab_equipment_walkthrough>) JSONArray.parseArray(str, Tab_equipment_walkthrough.class);
+			        for (Tab_equipment_walkthrough tab2 : listPram) {
+			        	tab2.setId(UUID.randomUUID().toString().replace("-", ""));
+						tab2.setCrt_code(sysLog.getCreator());
+						tab2.setCrt_date(new Date());
+						//执行保存
+						int tt=iequipment_walkthroughService.save(tab2);
+						if(tt>=1){
+							josn.msg="保存成功!";
+							josn.data=tab2;
+							josn.state=200;
+						}else{
+							josn.msg="保存失败!";
+							break;
+						}
+			        }
+				}else{
+					josn.msg="请填写设备预排信息!";
+				}
+			} catch (Exception e) {
+				sysLog.setIs_bug(1);
+				josn.msg=e.getMessage();
+				josn.state=500;
+			}
+			
+			return josn;
+		}
+	
 	
 	/**
 	 * 
@@ -383,8 +518,13 @@ public class Equipment_walkthroughController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("保存设备预排信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(4);
@@ -392,6 +532,9 @@ public class Equipment_walkthroughController {
 			try {
 				//验证非空
 				if(tab!=null){
+					tab.setId(UUID.randomUUID().toString().replace("-", ""));
+					tab.setCrt_code(sysLog.getCreator());
+					tab.setCrt_date(new Date());
 					//执行保存
 					int tt=iequipment_walkthroughService.save(tab);
 					if(tt>=1){
@@ -401,6 +544,7 @@ public class Equipment_walkthroughController {
 					}else{
 						josn.msg="保存失败!";
 					}
+					
 				}else{
 					josn.msg="请填写设备预排信息!";
 				}
@@ -412,7 +556,7 @@ public class Equipment_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 		}

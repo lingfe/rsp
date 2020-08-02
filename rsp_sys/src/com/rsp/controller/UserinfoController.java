@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.rsp.controller.util.GetIpUtil;
+import com.rsp.controller.util.LogUtils;
+import com.rsp.controller.util.SYS_GET;
 import com.rsp.model.JosnModel;
-import com.rsp.model.Tab_system_log;
 import com.rsp.model.Tab_user_info;
-import com.rsp.service.Isystem_logService;
+import com.rsp.service.Isys_system_logService;
 import com.rsp.service.IuserinfoService;
 
 /**
@@ -29,19 +30,23 @@ import com.rsp.service.IuserinfoService;
  */
 @Controller
 @RequestMapping("/userinfo")
-@SessionAttributes(value={"userid"})
+@SessionAttributes(value={"userid","hospital_id"})
 public class UserinfoController {
 	
 	//自动装配
 	
 	//系统日志
 	@Autowired
-	private Isystem_logService isystem_logService;
+	private Isys_system_logService isys_system_logService;
 		
 	//用户信息
 	@Autowired
 	private IuserinfoService iuserinfoService;
 	
+	/**
+	 * 是否有bug
+	 */
+	private int flag_bug=0;
 	
 	/**
 	 * 
@@ -58,32 +63,20 @@ public class UserinfoController {
 		HttpServletRequest request,HttpSession session){
 		//实例化对象
 		JosnModel<Object> josn=new JosnModel<Object>();
-		Tab_system_log sysLog=new Tab_system_log();
 		//系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name("用户退出登录,"+request.getRequestURI());
-		Object creator=session.getAttribute("userid");
-		if(!StringUtils.isEmpty(creator)){
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(0);
-		
+		LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+										"退出登录",
+										josn.msg,session,isys_system_logService);
 		try {
 			//销毁session
 			session.invalidate();
 			josn.state=200;
 			josn.msg="退出成功";
 		} catch (Exception e) {
-			sysLog.setIs_bug(1);
+			flag_bug=1;
 			josn.msg=e.getMessage();
 			josn.state=500;
 		}
-		
-		//操作说明
-		sysLog.setExceptionally_detailed(josn.msg);
-		//添加系统日志
-		isystem_logService.add(sysLog);
 		
 		return josn;
 	}
@@ -108,17 +101,6 @@ public class UserinfoController {
 			HttpServletRequest request,HttpSession session){
 		//实例化对象
 		JosnModel<Object> josn=new JosnModel<Object>();
-		Tab_system_log sysLog=new Tab_system_log();
-		
-		//系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name(request.getRequestURI());
-		Object creator=session.getAttribute("userid");
-		if(!StringUtils.isEmpty(creator)){
-			sysLog.setCreator(creator.toString());
-		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(2);
 		
 		//验证非空
 		if(!StringUtils.isEmpty(pwd)){
@@ -128,7 +110,7 @@ public class UserinfoController {
 					//匹配原始密码
 					Tab_user_info info=iuserinfoService.getWhereNamePwd(username, pwd);
 					if(info!=null){
-						sysLog.setTarget_id(info.getId());
+						session.setAttribute("target_id", info.getId());
 						//执行修改
 						int tt=iuserinfoService.updatePwd(info.getId(), newPwd);
 						if(tt>=1){
@@ -139,15 +121,14 @@ public class UserinfoController {
 						josn.msg="修改失败!原始密码错误!";
 					}
 				} catch (Exception e) {
-					sysLog.setIs_bug(1);
-					
+					flag_bug=1;
 					josn.msg=e.getMessage();
 					josn.state=500;
 				}
-				//操作说明
-				sysLog.setExceptionally_detailed(josn.msg);
-				//保存系统日志
-				isystem_logService.add(sysLog);
+				//系统日志
+				LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+										"修改密码",
+										josn.msg,session,isys_system_logService);
 			}else{
 				josn.msg="请输入新密码!";
 			}
@@ -179,13 +160,6 @@ public class UserinfoController {
 			HttpSession session){
 		//实例化对象
 		JosnModel<Object> josn=new JosnModel<Object>();
-		Tab_system_log sysLog=new Tab_system_log();
-		
-		//系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name(request.getRequestURI());				
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(1);
 		
 		//验证非空
 		if(!StringUtils.isEmpty(username)){
@@ -194,9 +168,9 @@ public class UserinfoController {
 					//执行查询
 					Tab_user_info info=iuserinfoService.getWhereNamePwd(username, pwd);
 					if(info!=null){
-						//将userid存储到session
+						//存储到session
 						session.setAttribute("userid", info.getId());
-						sysLog.setCreator(info.getId());
+						session.setAttribute("hospital_id", info.getHospital_id());
 						
 						josn.data=info;
 						josn.state=200;
@@ -205,15 +179,15 @@ public class UserinfoController {
 						josn.msg="该用户不存在或者密码错误!";
 					}
 				} catch (Exception e) {
-					sysLog.setIs_bug(1);
-					
+					flag_bug=1;
 					josn.msg=e.getMessage();
 					josn.state=500;
 				}
-				//操作说明
-				sysLog.setExceptionally_detailed(josn.msg);
-				//添加系统日志
-				isystem_logService.add(sysLog);
+				//系统日志
+				LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+										"登录",
+										josn.msg,session,isys_system_logService);
+				
 			}else{
 				josn.msg="密码不能为空!";
 			}
@@ -245,17 +219,16 @@ public class UserinfoController {
 		//实例化对象
 		Tab_user_info tab_user_info=new Tab_user_info();
 		JosnModel<Tab_user_info> json= new JosnModel<Tab_user_info>(); 
-		Tab_system_log sysLog=new Tab_system_log();
 		
-		//系统日志
-		sysLog.setIp(GetIpUtil.getIpAddr(request));
-		sysLog.setModel_name(request.getRequestURI());	
 		Object creator=session.getAttribute("userid");
-		if(!StringUtils.isEmpty(creator)){
-			sysLog.setCreator(creator.toString());
+		if(SYS_GET.IS_SESSION_VALIDATE){
+			if(StringUtils.isEmpty(creator)){
+				json.msg="会话过期!请重新登录";
+				return json;
+			}
+		}else{
+			creator=GetIpUtil.getIpAddr(request);
 		}
-		sysLog.setModify(sysLog.getCreator());
-		sysLog.setOperation_type(1);
 		
 		if(StringUtils.isEmpty(username)){
 			json.msg ="用户名不能为空!";
@@ -287,13 +260,13 @@ public class UserinfoController {
 			} catch (Exception e) {
 				json.state=500;
 				json.msg=e.getMessage();
-				sysLog.setIs_bug(1);
+				flag_bug=1;
 			}
+			//系统日志
+			LogUtils.jieLuSystemLog(request,LogUtils.OTHER,flag_bug,
+									"保存用户信息",
+									json.msg,session,isys_system_logService);
 			
-			//操作说明
-			sysLog.setExceptionally_detailed(json.msg);
-			//添加系统日志
-			isystem_logService.add(sysLog);
 		}
 		
 		return json;

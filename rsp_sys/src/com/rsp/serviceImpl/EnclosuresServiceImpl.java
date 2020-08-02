@@ -24,6 +24,11 @@ public class EnclosuresServiceImpl implements IenclosuresService {
 	//自动装配
 	@Autowired
 	private IenclosuresMapper ienclosuresMapper;
+	
+	@Override
+	public List<Tab_enclosure> getWhere(Map<String, Object> map) {
+		return ienclosuresMapper.getWhere(map);
+	}
 
 	@Override
 	public int deleteWhereId(String id) {

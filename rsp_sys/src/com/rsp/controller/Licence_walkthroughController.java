@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rsp.controller.util.GetIpUtil;
+import com.rsp.controller.util.SYS_GET;
 import com.rsp.model.JosnModel;
 import com.rsp.model.PageModel;
 import com.rsp.model.Tab_licence_walkthrough;
 import com.rsp.model.Tab_system_log;
 import com.rsp.model.Tab_user_info;
 import com.rsp.service.Ilicence_walkthroughService;
-import com.rsp.service.Isystem_logService;
+import com.rsp.service.Isys_system_logService;
 import com.rsp.service.IuserinfoService;
 
 /**
@@ -44,7 +45,7 @@ public class Licence_walkthroughController {
 	
 	//系统日志
 	@Autowired
-	private Isystem_logService isystem_logService;
+	private Isys_system_logService isys_system_logService;
 		
 	//用户信息
 	@Autowired
@@ -75,12 +76,13 @@ public class Licence_walkthroughController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("修改证照预排信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
-			}else{
-				josn.msg="会话过期!请重新登录!";
-				josn.state=401;
-				return josn;
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(2);
@@ -93,8 +95,8 @@ public class Licence_walkthroughController {
 						Tab_licence_walkthrough gh=ilicence_walkthroughService.getWhereId(tab.getId());
 						
 						//更新值
-						tab.setModify(sysLog.getCreator());
-						tab.setMdate(new Date());
+						tab.setModify_code(sysLog.getCreator());
+						tab.setModify_date(new Date());
 						tab.setVersion(String.valueOf(Integer.parseInt(gh.getVersion())+1));
 						
 						
@@ -122,7 +124,7 @@ public class Licence_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -176,7 +178,7 @@ public class Licence_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -205,12 +207,13 @@ public class Licence_walkthroughController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("根据id标识删除证照预排信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
-			}else{
-				josn.msg="会话过期!请重新登录!";
-				josn.state=401;
-				return josn;
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(3);
@@ -243,7 +246,7 @@ public class Licence_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -325,11 +328,11 @@ public class Licence_walkthroughController {
 				if(list!=null){
 					for (Tab_licence_walkthrough tab : list) {
 						//得到创建人名称
-						if(!StringUtils.isEmpty(tab.getCreator())){
-							if(!"游客".equals(tab.getCreator())){
-								Tab_user_info info=iuserinfoService.getWhereId(tab.getCreator());
+						if(!StringUtils.isEmpty(tab.getCrt_code())){
+							if(!"游客".equals(tab.getCrt_code())){
+								Tab_user_info info=iuserinfoService.getWhereId(tab.getCrt_code());
 								if(info!=null){
-									tab.creator_name=info.getUsername();
+									tab.setCrt_code(info.getUsername());
 								}
 							}
 						}
@@ -350,7 +353,7 @@ public class Licence_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}
@@ -379,12 +382,13 @@ public class Licence_walkthroughController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("保存证照预排信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
-			}else{
-				josn.msg="会话过期!请重新登录!";
-				josn.state=401;
-				return josn;
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(2);
@@ -393,8 +397,7 @@ public class Licence_walkthroughController {
 				//验证非空
 				if(tab!=null){
 					//赋值
-					tab.setCreator(sysLog.getCreator());
-					tab.setModify(tab.getCreator());
+					tab.setCrt_code(sysLog.getCreator());
 					
 					//执行保存
 					int tt=ilicence_walkthroughService.save(tab);
@@ -416,7 +419,7 @@ public class Licence_walkthroughController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 	}

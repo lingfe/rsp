@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rsp.controller.util.GetIpUtil;
+import com.rsp.controller.util.SYS_GET;
 import com.rsp.model.JosnModel;
 import com.rsp.model.PageModel;
 import com.rsp.model.Tab_process_setting;
 import com.rsp.model.Tab_system_log;
 import com.rsp.model.Tab_user_info;
 import com.rsp.service.Iprocess_settingService;
-import com.rsp.service.Isystem_logService;
+import com.rsp.service.Isys_system_logService;
 import com.rsp.service.IuserinfoService;
 
 /**
@@ -42,7 +44,7 @@ public class Process_settingController {
 	
 	//系统日志
 	@Autowired
-	private Isystem_logService isystem_logService;
+	private Isys_system_logService isys_system_logService;
 		
 	//用户信息
 	@Autowired
@@ -106,7 +108,7 @@ public class Process_settingController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 		}
@@ -190,11 +192,11 @@ public class Process_settingController {
 				}else{
 					for (Tab_process_setting pro : list) {
 						//得到创建人名称
-						if(!StringUtils.isEmpty(pro.getCreator())){
-							if(!"游客".equals(pro.getCreator())){
-								Tab_user_info info=iuserinfoService.getWhereId(pro.getCreator());
+						if(!StringUtils.isEmpty(pro.getCrt_code())){
+							if(!"游客".equals(pro.getCrt_code())){
+								Tab_user_info info=iuserinfoService.getWhereId(pro.getCrt_code());
 								if(info!=null){
-									pro.creator_name=info.getUsername();
+									pro.setCrt_name(info.getUsername());
 								}
 							}
 						}
@@ -213,7 +215,7 @@ public class Process_settingController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 		}
@@ -241,8 +243,13 @@ public class Process_settingController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("修改流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(2);
@@ -258,10 +265,18 @@ public class Process_settingController {
 						pro.setProcess_link(tabPro.getProcess_link());
 						pro.setProcess_name(tabPro.getProcess_name());
 						pro.setProcess_type(tabPro.getProcess_type());
-						pro.setMdate(new Date());
-						pro.setModify(sysLog.getCreator());
+						pro.setModify_date(new Date());
+						pro.setModify_code(sysLog.getCreator());
 						pro.setVersion(String.valueOf(Integer.parseInt(pro.getVersion())+1));
-						pro.setState(tabPro.getState());
+						
+						
+						//验证是否停用
+						if(tabPro.getStop_flag()!=pro.getStop_flag()&&pro.getStop_flag()==1){
+							//赋值停用信息
+							pro.setStop_code(sysLog.getCreator());
+							pro.setStop_date(new Date());
+							pro.setStop_explain(pro.getStop_explain());
+						}
 						
 						//执行更新修改
 						int tt=iprocess_settingService.update(pro);
@@ -286,7 +301,7 @@ public class Process_settingController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 		}
@@ -314,8 +329,13 @@ public class Process_settingController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("根据id标识删除流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(3);
@@ -348,7 +368,7 @@ public class Process_settingController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			return josn;
 		}
@@ -377,8 +397,13 @@ public class Process_settingController {
 			sysLog.setIp(GetIpUtil.getIpAddr(request));
 			sysLog.setModel_name("保存流程设置信息,"+request.getRequestURI());
 			Object creator=session.getAttribute("userid");
-			if(!StringUtils.isEmpty(creator)){
-				sysLog.setCreator(creator.toString());
+			if(SYS_GET.IS_SESSION_VALIDATE){
+				if(!StringUtils.isEmpty(creator)){
+					sysLog.setCreator(creator.toString());
+				}else{
+					josn.msg="会话过期!请重新登录";
+					return josn;
+				}
 			}
 			sysLog.setModify(sysLog.getCreator());
 			sysLog.setOperation_type(4);
@@ -389,7 +414,10 @@ public class Process_settingController {
 					if(!StringUtils.isEmpty(tabPro.getProcess_type())){
 						if(!StringUtils.isEmpty(tabPro.getProcess_name())){
 							//赋值
-							tabPro.setMdate(new Date());
+							tabPro.setId(UUID.randomUUID().toString().replace("-", ""));
+							tabPro.setCrt_code(sysLog.getCreator());
+							tabPro.setCrt_date(new Date());
+							
 							
 							//执行保存
 							int tt=iprocess_settingService.save(tabPro);
@@ -418,7 +446,7 @@ public class Process_settingController {
 			//操作说明
 			sysLog.setExceptionally_detailed(josn.msg);
 			//添加系统日志
-			isystem_logService.add(sysLog);
+			//isystem_logService.add(sysLog);
 			
 			
 			return josn;

@@ -25,6 +25,10 @@ public class Equipment_walkthroughServiceImpl implements Iequipment_walkthroughS
 	@Autowired
 	private Iequipment_walkthroughMapper iequipment_walkthroughMapper;
 	
+	@Override
+	public List<Tab_equipment_walkthrough> getWhere(Map<String, Object> map) {
+		return iequipment_walkthroughMapper.getWhere(map);
+	}
 	
 	@Override
 	public int deleteWhereId(String id) {

@@ -7,6 +7,9 @@ import com.rsp.inter.Ienclosures;
 import com.rsp.model.Tab_enclosure;
 
 public interface IenclosuresService extends Ienclosures {
+	
+	@Override
+	List<Tab_enclosure> getWhere(Map<String, Object> map);
 
 	@Override
 	int deleteWhereId(String id);

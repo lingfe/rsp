@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * 
   * 文件名：Tab_enclosure.java
-  * 描述： 附件表
+  * 描述： 附件信息表
   * 修改人： lingfe
   * 修改时间：2019年3月26日 上午9:24:16
   * 修改内容：
@@ -17,92 +17,111 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Tab_enclosure {
 
 	private String id;//	`id` VARCHAR(64) NOT NULL COMMENT '附件表id标识',
-	private String set_id;//	  `set_id` VARCHAR(64) DEFAULT NULL COMMENT 'setid：可以标识设备id，其他id',
-	private String enclosure_type;//	  `enclosure_type` VARCHAR(64) DEFAULT NULL COMMENT '附件类型',
-	private String enclosure_name;//	  `enclosure_name` VARCHAR(1024) DEFAULT NULL COMMENT '附件名称',
-	private String enclosure_remark;//	  `enclosure_remark` VARCHAR(1024) DEFAULT NULL COMMENT '附件说明',
+	private String hospital_id;//	  `set_id` VARCHAR(64) DEFAULT NULL COMMENT 'setid：可以标识设备id，其他id',
+	private String coding_type;//	  `enclosure_type` VARCHAR(64) DEFAULT NULL COMMENT '附件类型',
+	private String yw_id;//	  `enclosure_name` VARCHAR(1024) DEFAULT NULL COMMENT '附件名称',
+	private Integer flag_type;//	  `enclosure_remark` VARCHAR(1024) DEFAULT NULL COMMENT '附件说明',
+	private String path;//跟路径
+	private String fj_name_real;//附件实际名称
+	private String fj_name_sys;//附件系统名称
+	private String fj_name_easy;//附件简介
+	private Integer fj_size;//附件大小
+	private String fj_remark;//附件说明
+	private Integer sort;//排序
 	
-	
-	private Integer state=0;//	  `state` INT(11) DEFAULT '1' COMMENT '状态',
+	private String crt_code;//	crt_code VARCHAR(64) COMMENT '创建人id',
+	private String crt_name;//	crt_name VARCHAR(64) COMMENT '创建人姓名',
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date cdate=new Date();//	  `cdate` DATETIME DEFAULT NULL COMMENT '创建时间',
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date mdate=new Date();//	  `mdate` DATETIME DEFAUL	T NULL COMMENT '最后修改时间',
-	private String creator;//	  `creator` VARCHAR(64) DEFAULT 'admin' COMMENT '创建人',
-	private String modify;//	  `modify` VARCHAR(64) DEFAULT 'admin' COMMENT '修改人',
-	private String version="0";//	  `version` VARCHAR(64) DEFAULT '0' COMMENT '数据版本',
-	
-	//add   ===>>表示该字段是后来添加，会同步到数据库
-		
-	//param ===>>表示该字段是参数需要,不会同步到数据库
-	public String creator_name;//创建人名称
-	public String modify_name;//修改人名称
+	private Date crt_date;//	crt_date DATETIME COMMENT '创建时间',
 	public String getId() {
 		return id;
 	}
-	public String getSet_id() {
-		return set_id;
+	public String getHospital_id() {
+		return hospital_id;
 	}
-	public String getEnclosure_type() {
-		return enclosure_type;
+	public String getCoding_type() {
+		return coding_type;
 	}
-	public String getEnclosure_name() {
-		return enclosure_name;
+	public String getYw_id() {
+		return yw_id;
 	}
-	public String getEnclosure_remark() {
-		return enclosure_remark;
+	public Integer getFlag_type() {
+		return flag_type;
 	}
-	public Integer getState() {
-		return state;
+	public String getPath() {
+		return path;
 	}
-	public Date getCdate() {
-		return cdate;
+	public String getFj_name_real() {
+		return fj_name_real;
 	}
-	public Date getMdate() {
-		return mdate;
+	public String getFj_name_sys() {
+		return fj_name_sys;
 	}
-	public String getCreator() {
-		return creator;
+	public String getFj_name_easy() {
+		return fj_name_easy;
 	}
-	public String getModify() {
-		return modify;
+	public Integer getFj_size() {
+		return fj_size;
 	}
-	public String getVersion() {
-		return version;
+	public String getFj_remark() {
+		return fj_remark;
+	}
+	public Integer getSort() {
+		return sort;
+	}
+	public String getCrt_code() {
+		return crt_code;
+	}
+	public String getCrt_name() {
+		return crt_name;
+	}
+	public Date getCrt_date() {
+		return crt_date;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setSet_id(String set_id) {
-		this.set_id = set_id;
+	public void setHospital_id(String hospital_id) {
+		this.hospital_id = hospital_id;
 	}
-	public void setEnclosure_type(String enclosure_type) {
-		this.enclosure_type = enclosure_type;
+	public void setCoding_type(String coding_type) {
+		this.coding_type = coding_type;
 	}
-	public void setEnclosure_name(String enclosure_name) {
-		this.enclosure_name = enclosure_name;
+	public void setYw_id(String yw_id) {
+		this.yw_id = yw_id;
 	}
-	public void setEnclosure_remark(String enclosure_remark) {
-		this.enclosure_remark = enclosure_remark;
+	public void setFlag_type(Integer flag_type) {
+		this.flag_type = flag_type;
 	}
-	public void setState(Integer state) {
-		this.state = state;
+	public void setPath(String path) {
+		this.path = path;
 	}
-	public void setCdate(Date cdate) {
-		this.cdate = cdate;
+	public void setFj_name_real(String fj_name_real) {
+		this.fj_name_real = fj_name_real;
 	}
-	public void setMdate(Date mdate) {
-		this.mdate = mdate;
+	public void setFj_name_sys(String fj_name_sys) {
+		this.fj_name_sys = fj_name_sys;
 	}
-	public void setCreator(String creator) {
-		this.creator = creator;
+	public void setFj_name_easy(String fj_name_easy) {
+		this.fj_name_easy = fj_name_easy;
 	}
-	public void setModify(String modify) {
-		this.modify = modify;
+	public void setFj_size(Integer fj_size) {
+		this.fj_size = fj_size;
 	}
-	public void setVersion(String version) {
-		this.version = version;
+	public void setFj_remark(String fj_remark) {
+		this.fj_remark = fj_remark;
+	}
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+	public void setCrt_code(String crt_code) {
+		this.crt_code = crt_code;
+	}
+	public void setCrt_name(String crt_name) {
+		this.crt_name = crt_name;
+	}
+	public void setCrt_date(Date crt_date) {
+		this.crt_date = crt_date;
 	}
 }

@@ -25,6 +25,9 @@ public class GetDateString {
 		return s;
 	}
 	
+	
+	
+	
 	/**
 	 * 获取当前时间 yyyyMMddHHmmss
 	 * 

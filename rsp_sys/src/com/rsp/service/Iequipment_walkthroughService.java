@@ -9,6 +9,9 @@ import com.rsp.model.Tab_equipment_walkthrough;
 public interface Iequipment_walkthroughService extends Iequipment_walkthrough {
 
 	@Override
+	List<Tab_equipment_walkthrough> getWhere(Map<String, Object> map);
+	
+	@Override
 	int deleteWhereId(String id);
 	
 	@Override

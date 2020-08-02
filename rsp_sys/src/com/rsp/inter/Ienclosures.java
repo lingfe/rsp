@@ -8,12 +8,22 @@ import com.rsp.model.Tab_enclosure;
 /**
  * 
   * 文件名：Ienclosures.java
-  * 描述： 附件表数据访问接口
+  * 描述： 附件信息表数据访问接口
   * 修改人： lingfe
   * 修改时间：2019年3月26日 上午9:29:24
   * 修改内容：
  */
 public interface Ienclosures {
+	
+	/**
+	 * 
+	 * 根据条件查询附件信息
+	 * @author lingfe     
+	 * @created 2019年4月20日 下午2:13:40  
+	 * @param map
+	 * @return
+	 */
+	List<Tab_enclosure> getWhere(Map<String, Object> map);
 	
 	/**
 	 * 

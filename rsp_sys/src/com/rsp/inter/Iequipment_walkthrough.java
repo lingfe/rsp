@@ -15,6 +15,17 @@ import com.rsp.model.Tab_equipment_walkthrough;
  */
 public interface Iequipment_walkthrough {
 	
+	
+	/**
+	 * 
+	 * 根据条件查询设备预排信息
+	 * @author lingfe     
+	 * @created 2019年4月15日 下午4:56:25  
+	 * @param map
+	 * @return
+	 */
+	List<Tab_equipment_walkthrough> getWhere(Map<String, Object> map);
+	
 	/**
 	 * 
 	 * 根据id标识删除信息
